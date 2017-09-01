@@ -13,7 +13,6 @@ class App extends Component {
     super(props);
     this.state = { LoggedIn : false };
     Store.subscribe(function() {
-      console.lgo("Store changed - " + Store.getState().AppReducer.LoggedIn);
       this.setState({ LoggedIn : Store.getState().AppReducer.LoggedIn });
     }.bind(this));
   }

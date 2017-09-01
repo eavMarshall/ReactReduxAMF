@@ -11824,7 +11824,7 @@ var WRComponent = function (_Component) {
         this.ui.destructor();
         this.ui = null;
       }
-      var layout = JSON.parse(JSON.stringify(this.getLayout())); //protect the layout from webix
+      var layout = Object.assign({}, this.getLayout());
       layout.container = _reactDom2.default.findDOMNode(this.refs.root);
       this.ui = window.webix.ui(layout);
       this.aftercomponentDidMount();
@@ -24021,7 +24021,7 @@ exports = module.exports = __webpack_require__(33)(undefined);
 
 
 // module
-exports.push([module.i, "html, body {\n  margin: 0;\n  padding: 0;\n  height: 100%;\n  font-family: sans-serif;\n}\n\n.fullScreen {\n  margin: 0;\n  height: 100%;\n}\n", ""]);
+exports.push([module.i, "html, body {\r\n  margin: 0;\r\n  padding: 0;\r\n  height: 100%;\r\n  font-family: sans-serif;\r\n}\r\n\r\n.fullScreen {\r\n  margin: 0;\r\n  height: 100%;\r\n}\r\n", ""]);
 
 // exports
 
@@ -24186,7 +24186,6 @@ var App = function (_Component) {
 
     _this.state = { LoggedIn: false };
     _Store2.default.subscribe(function () {
-      console.lgo("Store changed - " + _Store2.default.getState().AppReducer.LoggedIn);
       this.setState({ LoggedIn: _Store2.default.getState().AppReducer.LoggedIn });
     }.bind(_this));
     return _this;
@@ -27661,6 +27660,7 @@ var LoginPage = function (_WRComponent) {
     key: 'login',
     value: function login() {
       if (this.message != null) webix.message.hide(this.message);
+      $$('LoginPageLoginButton').disable();
       /*
         //To your login request here
         //*example*
@@ -27672,7 +27672,6 @@ var LoginPage = function (_WRComponent) {
           function(res) {
             if (res[0] == build.version) {
               store.dispatch({ type: '@App.LoggedIn', value: true });
-              $$('loginBtn').enable();
               this.message = webix.message({text:"Logged in", expire:5000});
             } else {
               store.dispatch({ type: '@App.LoggedOut', value: false });
@@ -27687,24 +27686,17 @@ var LoginPage = function (_WRComponent) {
         );
       */
       _Store2.default.dispatch({ type: '@App.LoggedIn', value: true });
-      $$('LoginPageLoginButton').disable();
     }
   }, {
     key: 'getLayout',
     value: function getLayout() {
-      console.log(this.login);
       return {
         rows: [{}, {
           cols: [{}, {
             view: "form",
             id: "LoginPageMainForm",
             width: 300,
-            elements: [{
-              rows: [{ view: "label", label: "Your Welcome message here", margin: 5, align: "center" }]
-            }, { id: "LoginPageUsername", view: "text", label: "Username", name: "username" }, { id: "LoginPagePassword", view: "text", type: "password", label: "Password", name: "password" }, {
-              margin: 5,
-              cols: [{ id: "LoginPageLoginButton", view: "button", value: "Login", width: 100, click: this.login }]
-            }]
+            elements: [{ view: "label", label: "Your Welcome message here", margin: 5, align: "center" }, { id: "LoginPageUsername", view: "text", label: "Username", name: "username" }, { id: "LoginPagePassword", view: "text", type: "password", label: "Password", name: "password" }, { id: "LoginPageLoginButton", view: "button", value: "Login", width: 100, "click": this.login.bind(this) }]
           }, {}]
         }, {}]
       };
@@ -27929,7 +27921,7 @@ var SideMenuPage = function (_WRComponent) {
               css: "app_button",
               icon: "sign-out",
               badge: 0,
-              click: this.logout
+              click: this.logout.bind(this)
             }] }, {
             id: "contentArea",
             rows: [{}]
@@ -28247,7 +28239,7 @@ exports = module.exports = __webpack_require__(33)(undefined);
 
 
 // module
-exports.push([module.i, ".myBackgroundColor {\n\tbackground: #3498db!important;\n\tcolor:white;\n}\n\n/* SideBar*/\n.webix_sidebar{\n\tbackground: white;\n}\n.webix_sidebar .webix_tree_item {\n\tcolor: #454545;\n\theight: 35px;\n\tline-height: 35px;\n}\n.webix_sidebar .webix_scroll_cont > .webix_tree_leaves {\n\tpadding: 0;\n}\n.webix_sidebar .webix_tree_leaves .webix_tree_leaves {\n\tmargin-left: 0px;\n}\n.webix_sidebar_selected,\n.webix_sidebar_expanded .webix_tree_item:hover{\n\tbackground-color: rgba(0,0,0,0.02);\n}\n.webix_sidebar .webix_tree_item.webix_selected,\n.webix_sidebar .webix_tree_item.webix_selected span{\n\tbackground-color: #3498db;\n\tcolor: white;\n\tpadding-right:0;\n}\n.webix_sidebar .webix_tree_branch_1 .webix_tree_item{\n\tpadding-left:40px;\n}\n.webix_sidebar .webix_tree_branch_1>.webix_tree_item{\n\theight: 40px;\n\tline-height: 40px;\n\tpadding-left:0;\n}\n.webix_sidebar .webix_tree_branch_1{\n\tborder-bottom:1px solid #e5e5e5;\n}\n.webix_sidebar .webix_tree_item.webix_selected span,\n.webix_sidebar .webix_tree_item span{\n\tmargin:0;\n\tpadding:0px;\n}\n.webix_sidebar_icon{\n\twidth: 40px;\n\ttext-align: center;\n}\n\n.webix_sidebar_dir_icon{\n\tfloat: right;\n\tline-height: inherit;\n}\n\n/*SubMenu (Popup) */\n.webix_sidebar_popup{\n\tborder:none !important;\n\tbox-shadow: 2px 3px 3px #ddd;\n}\n.webix_sidebar_popup, .webix_sidebar_popup .webix_list_item{\n\tborder-radius:0;\n}\n.webix_sidebar_popup_right{\n\tbox-shadow: -1px 3px 3px #ddd;\n}\n/*SubMenu: title*/\n.webix_sidebar_popup_title{\n\tbackground: #ECEFF1;\n}\n.webix_sidebar_popup_title.webix_selected{\n\tborder-left-color: #3498db;\n\tbackground: #3498db;\n}\n.webix_sidebar_popup_title .webix_template{\n\tline-height: 40px;\n\tpadding: 0 10px;\n\tborder: 1px solid #E5E5E5;\n\tborder-left:none;\n}\n.webix_sidebar_selected.webix_sidebar_popup_title .webix_template{\n\tbackground: rgba(0,0,0,0.03);\n\tborder-left: none;\n}\n.webix_sidebar_popup_list .webix_list_item{\n\tborder-left: 1px solid #E5E5E5;\n\tborder-right: 1px solid #E5E5E5;\n}\n/*SubMenu: list*/\n.webix_sidebar_popup_list .webix_list_item:first-child{\n\tborder-top: 1px solid #E5E5E5;\n}\n.webix_sidebar_popup_list .webix_list_item:hover{\n\tbackground: #f6f9fb;\n}\n.webix_sidebar_popup_list .webix_list_item .webix_selected{\n\tbackground: #3498db !important;\n}\n.webix_sidebar_popup_list .webix_list_item .webix_selected:hover{\n\tbackground: #3498db !important;\n}\n", ""]);
+exports.push([module.i, ".myBackgroundColor {\r\n\tbackground: #3498db!important;\r\n\tcolor:white;\r\n}\r\n\r\n/* SideBar*/\r\n.webix_sidebar{\r\n\tbackground: white;\r\n}\r\n.webix_sidebar .webix_tree_item {\r\n\tcolor: #454545;\r\n\theight: 35px;\r\n\tline-height: 35px;\r\n}\r\n.webix_sidebar .webix_scroll_cont > .webix_tree_leaves {\r\n\tpadding: 0;\r\n}\r\n.webix_sidebar .webix_tree_leaves .webix_tree_leaves {\r\n\tmargin-left: 0px;\r\n}\r\n.webix_sidebar_selected,\r\n.webix_sidebar_expanded .webix_tree_item:hover{\r\n\tbackground-color: rgba(0,0,0,0.02);\r\n}\r\n.webix_sidebar .webix_tree_item.webix_selected,\r\n.webix_sidebar .webix_tree_item.webix_selected span{\r\n\tbackground-color: #3498db;\r\n\tcolor: white;\r\n\tpadding-right:0;\r\n}\r\n.webix_sidebar .webix_tree_branch_1 .webix_tree_item{\r\n\tpadding-left:40px;\r\n}\r\n.webix_sidebar .webix_tree_branch_1>.webix_tree_item{\r\n\theight: 40px;\r\n\tline-height: 40px;\r\n\tpadding-left:0;\r\n}\r\n.webix_sidebar .webix_tree_branch_1{\r\n\tborder-bottom:1px solid #e5e5e5;\r\n}\r\n.webix_sidebar .webix_tree_item.webix_selected span,\r\n.webix_sidebar .webix_tree_item span{\r\n\tmargin:0;\r\n\tpadding:0px;\r\n}\r\n.webix_sidebar_icon{\r\n\twidth: 40px;\r\n\ttext-align: center;\r\n}\r\n\r\n.webix_sidebar_dir_icon{\r\n\tfloat: right;\r\n\tline-height: inherit;\r\n}\r\n\r\n/*SubMenu (Popup) */\r\n.webix_sidebar_popup{\r\n\tborder:none !important;\r\n\tbox-shadow: 2px 3px 3px #ddd;\r\n}\r\n.webix_sidebar_popup, .webix_sidebar_popup .webix_list_item{\r\n\tborder-radius:0;\r\n}\r\n.webix_sidebar_popup_right{\r\n\tbox-shadow: -1px 3px 3px #ddd;\r\n}\r\n/*SubMenu: title*/\r\n.webix_sidebar_popup_title{\r\n\tbackground: #ECEFF1;\r\n}\r\n.webix_sidebar_popup_title.webix_selected{\r\n\tborder-left-color: #3498db;\r\n\tbackground: #3498db;\r\n}\r\n.webix_sidebar_popup_title .webix_template{\r\n\tline-height: 40px;\r\n\tpadding: 0 10px;\r\n\tborder: 1px solid #E5E5E5;\r\n\tborder-left:none;\r\n}\r\n.webix_sidebar_selected.webix_sidebar_popup_title .webix_template{\r\n\tbackground: rgba(0,0,0,0.03);\r\n\tborder-left: none;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item{\r\n\tborder-left: 1px solid #E5E5E5;\r\n\tborder-right: 1px solid #E5E5E5;\r\n}\r\n/*SubMenu: list*/\r\n.webix_sidebar_popup_list .webix_list_item:first-child{\r\n\tborder-top: 1px solid #E5E5E5;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item:hover{\r\n\tbackground: #f6f9fb;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item .webix_selected{\r\n\tbackground: #3498db !important;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item .webix_selected:hover{\r\n\tbackground: #3498db !important;\r\n}\r\n", ""]);
 
 // exports
 

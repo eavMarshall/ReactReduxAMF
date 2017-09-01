@@ -108,7 +108,7 @@ class SideMenuPage extends WRComponent {
                 css: "app_button",
                 icon: "sign-out",
                 badge: 0,
-                click: this.logout,
+                click: this.logout.bind(this),
               }
           ]},
           {

@@ -8,6 +8,7 @@ export default class LoginPage extends WRComponent {
 
   login() {
     if (this.message != null) webix.message.hide(this.message);
+    $$('LoginPageLoginButton').disable();
     /*
       //To your login request here
       //*example*
@@ -19,7 +20,6 @@ export default class LoginPage extends WRComponent {
         function(res) {
           if (res[0] == build.version) {
             store.dispatch({ type: '@App.LoggedIn', value: true });
-            $$('loginBtn').enable();
             this.message = webix.message({text:"Logged in", expire:5000});
           } else {
             store.dispatch({ type: '@App.LoggedOut', value: false });
@@ -34,7 +34,6 @@ export default class LoginPage extends WRComponent {
       );
     */
     Store.dispatch({ type: '@App.LoggedIn', value: true });
-    $$('LoginPageLoginButton').disable();
   }
 
   getLayout() {
@@ -49,19 +48,10 @@ export default class LoginPage extends WRComponent {
             id:"LoginPageMainForm",
             width:300,
             elements:[
-                {
-                  rows : [
-                    { view:"label", label: "Your Welcome message here", margin:5, align:"center"}
-                  ]
-                },
+                { view:"label", label: "Your Welcome message here", margin:5, align:"center"},
                 { id: "LoginPageUsername", view:"text", label:"Username", name:"username"},
-                { id: "LoginPagePassword", view:"text", type:"password", label:"Password", name:"password"},
-                {
-                  margin:5,
-                  cols:[
-                    { id:"LoginPageLoginButton", view:"button", value:"Login", width:100, click:this.login }
-                  ]
-                }
+                { id: "LoginPagePassword", view:"text", type:"password", label:"Password", name:"password" },
+                { id: "LoginPageLoginButton", view:"button", value:"Login", width:100, "click": this.login.bind(this) }
               ]
             },
             {},

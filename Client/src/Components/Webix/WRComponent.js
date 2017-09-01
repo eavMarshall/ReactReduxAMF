@@ -30,7 +30,7 @@ export default class WRComponent extends Component {
       this.ui.destructor();
       this.ui = null;
     }
-    let layout = JSON.parse(JSON.stringify(this.getLayout())); //protect the layout from webix
+    let layout = Object.assign({}, this.getLayout());
     layout.container = ReactDOM.findDOMNode(this.refs.root);
     this.ui = window.webix.ui(layout);
     this.aftercomponentDidMount();
