@@ -29,6 +29,7 @@ npm install style-loader css-loader --save
 npm install webpack -g
 
 npm install --save react-redux
+npm install --save redux
 ```
 
 #From react:
