@@ -27878,7 +27878,6 @@ var SideMenuPage = function (_WRComponent) {
   }, {
     key: 'getSelectedMenuName',
     value: function getSelectedMenuName(id) {
-      console.log(JSON.stringify(this.sideBarMenu));
       for (var i = 0; i < this.sideBarMenu.length; i++) {
         if (null != this.sideBarMenu[i]["data"]) {
           for (var j = 0; j < this.sideBarMenu[i].data.length; j++) {
