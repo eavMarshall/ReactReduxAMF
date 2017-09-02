@@ -22,6 +22,8 @@ class SideMenuPage extends WRComponent {
               { id: "tables3", value: "Pivot"}
           ]}
       ];
+    } else {
+      this.sideBarMenu = props.sideBarMenu;
     }
   }
   setWebixData(data) { }
@@ -31,6 +33,7 @@ class SideMenuPage extends WRComponent {
   }
 
   getSelectedMenuName(id) {
+    console.log(JSON.stringify(this.sideBarMenu));
     for (var i = 0; i < this.sideBarMenu.length; i++) {
       if (null != this.sideBarMenu[i]["data"]) {
         for (var j = 0; j < this.sideBarMenu[i].data.length; j++) {
@@ -57,6 +60,7 @@ class SideMenuPage extends WRComponent {
   }
 
   getLayout() {
+    let menuLayout = JSON.parse(JSON.stringify(this.sideBarMenu)); //protect sideBarMenu from webix
     return {
       css:"fullScreen",
       cols: [
@@ -74,7 +78,7 @@ class SideMenuPage extends WRComponent {
           {
             id: "SideMenu",
             view: "sidebar",
-            data: this.sideBarMenu,
+            data: menuLayout,
             on: {
               onAfterSelect: this.sideBarItemSelectHandler.bind(this)
             }
@@ -98,6 +102,7 @@ class SideMenuPage extends WRComponent {
                 id: "toolbar_label",
                 view: "label",
                 label: "My page name",
+                height:"46",
               },
               {},
               {

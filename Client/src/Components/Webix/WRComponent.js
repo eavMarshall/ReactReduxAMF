@@ -15,15 +15,10 @@ export default class WRComponent extends Component {
     }
   }
 
-  render() {
-    return (
-      <div ref="root" className="fullScreen"></div>
-    );
-  }
-
-  webixRedraw() {
-    this.componentDidMount();
-  }
+  _windowsResize(event) { this.adjust(); this.windowsResize(event); }
+  render() { return (<div ref="root" className="fullScreen"></div>); }
+  componentWillUpdate(props) { this.setWebixData(props); }
+  shouldComponentUpdate() { return true; }
 
   componentDidMount() {
     if (null != this.ui) {
@@ -33,21 +28,22 @@ export default class WRComponent extends Component {
     let layout = Object.assign({}, this.getLayout());
     layout.container = ReactDOM.findDOMNode(this.refs.root);
     this.ui = window.webix.ui(layout);
+    window.addEventListener('resize', this._windowsResize.bind(this));
     this.aftercomponentDidMount();
   }
-
-  aftercomponentDidMount() {}
 
   componentWillUnmount(){
     this.ui.destructor();
     this.ui = null;
+    window.removeEventListener("resize", this._windowsResize.bind(this));
   }
 
-  componentWillUpdate(props){
-    this.setWebixData(props);
-  }
-
-  shouldComponentUpdate(){
-    return true;
-  }
+  /*
+    functions to be called or override
+    TODO document theses functions
+  */
+  adjust() { if (null != this.ui) { this.ui.adjust(); } }
+  aftercomponentDidMount() {}
+  webixRedraw() { this.componentDidMount(); }
+  windowsResize(event) {}
 }
