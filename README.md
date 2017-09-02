@@ -2,6 +2,8 @@
 Requires npm
 Javascript amf from https://github.com/emilkm/amfjs isntalled @ \WebixReactRedux\Client\src\Components\amf\amf.js
 
+Working example @ [https://eavmarshall.github.io/WebixReactReduxAMF/]
+
 To install
 Run the commands from \WebixReactRedux\Client\ and all the node_modules will be downloaded
 ```sh
