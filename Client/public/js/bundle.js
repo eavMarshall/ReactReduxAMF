@@ -11808,35 +11808,14 @@ var WRComponent = function (_Component) {
   }
 
   _createClass(WRComponent, [{
+    key: '_windowsResize',
+    value: function _windowsResize(event) {
+      this.adjust();this.windowsResize(event);
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement('div', { ref: 'root', className: 'fullScreen' });
-    }
-  }, {
-    key: 'webixRedraw',
-    value: function webixRedraw() {
-      this.componentDidMount();
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      if (null != this.ui) {
-        this.ui.destructor();
-        this.ui = null;
-      }
-      var layout = Object.assign({}, this.getLayout());
-      layout.container = _reactDom2.default.findDOMNode(this.refs.root);
-      this.ui = window.webix.ui(layout);
-      this.aftercomponentDidMount();
-    }
-  }, {
-    key: 'aftercomponentDidMount',
-    value: function aftercomponentDidMount() {}
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      this.ui.destructor();
-      this.ui = null;
     }
   }, {
     key: 'componentWillUpdate',
@@ -11848,6 +11827,50 @@ var WRComponent = function (_Component) {
     value: function shouldComponentUpdate() {
       return true;
     }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (null != this.ui) {
+        this.ui.destructor();
+        this.ui = null;
+      }
+      var layout = Object.assign({}, this.getLayout());
+      layout.container = _reactDom2.default.findDOMNode(this.refs.root);
+      this.ui = window.webix.ui(layout);
+      window.addEventListener('resize', this._windowsResize.bind(this));
+      this.aftercomponentDidMount();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.ui.destructor();
+      this.ui = null;
+      window.removeEventListener("resize", this._windowsResize.bind(this));
+    }
+
+    /*
+      functions to be called or override
+      TODO document theses functions
+    */
+
+  }, {
+    key: 'adjust',
+    value: function adjust() {
+      if (null != this.ui) {
+        this.ui.adjust();
+      }
+    }
+  }, {
+    key: 'aftercomponentDidMount',
+    value: function aftercomponentDidMount() {}
+  }, {
+    key: 'webixRedraw',
+    value: function webixRedraw() {
+      this.componentDidMount();
+    }
+  }, {
+    key: 'windowsResize',
+    value: function windowsResize(event) {}
   }]);
 
   return WRComponent;
@@ -24021,7 +24044,7 @@ exports = module.exports = __webpack_require__(33)(undefined);
 
 
 // module
-exports.push([module.i, "html, body {\r\n  margin: 0;\r\n  padding: 0;\r\n  height: 100%;\r\n  font-family: sans-serif;\r\n}\r\n\r\n.fullScreen {\r\n  margin: 0;\r\n  height: 100%;\r\n}\r\n", ""]);
+exports.push([module.i, "html, body {\r\n  margin: 0;\r\n  padding: 0;\r\n  height: 100%;\r\n  width: 100%;\r\n  font-family: sans-serif;\r\n}\r\n\r\n.fullScreen {\r\n  margin: 0;\r\n  height: 100%;\r\n  width: 100%;\r\n}\r\n\r\n.webix_view {\r\n  height: 100%;\r\n  width: 100%;\r\n}\r\n", ""]);
 
 // exports
 
@@ -27838,6 +27861,8 @@ var SideMenuPage = function (_WRComponent) {
 
     if (null == props.sideBarMenu) {
       _this.sideBarMenu = [{ id: "home", icon: "home", value: "Home" }, { id: "dashboard", icon: "dashboard", value: "Dashboards", data: [{ id: "dashboard1", value: "Dashboard 1" }, { id: "dashboard2", value: "Dashboard 2" }] }, { id: "layouts", icon: "columns", value: "Layouts", data: [{ id: "accordions", value: "Accordions" }, { id: "portlets", value: "Portlets" }] }, { id: "tables", icon: "table", value: "Data Tables", data: [{ id: "tables1", value: "Datatable" }, { id: "tables2", value: "TreeTable" }, { id: "tables3", value: "Pivot" }] }];
+    } else {
+      _this.sideBarMenu = props.sideBarMenu;
     }
     return _this;
   }
@@ -27853,6 +27878,7 @@ var SideMenuPage = function (_WRComponent) {
   }, {
     key: 'getSelectedMenuName',
     value: function getSelectedMenuName(id) {
+      console.log(JSON.stringify(this.sideBarMenu));
       for (var i = 0; i < this.sideBarMenu.length; i++) {
         if (null != this.sideBarMenu[i]["data"]) {
           for (var j = 0; j < this.sideBarMenu[i].data.length; j++) {
@@ -27882,6 +27908,7 @@ var SideMenuPage = function (_WRComponent) {
   }, {
     key: 'getLayout',
     value: function getLayout() {
+      var menuLayout = JSON.parse(JSON.stringify(this.sideBarMenu)); //protect sideBarMenu from webix
       return {
         css: "fullScreen",
         cols: [{ rows: [{
@@ -27894,7 +27921,7 @@ var SideMenuPage = function (_WRComponent) {
             }] }, {
             id: "SideMenu",
             view: "sidebar",
-            data: this.sideBarMenu,
+            data: menuLayout,
             on: {
               onAfterSelect: this.sideBarItemSelectHandler.bind(this)
             }
@@ -27912,7 +27939,8 @@ var SideMenuPage = function (_WRComponent) {
             }, {
               id: "toolbar_label",
               view: "label",
-              label: "My page name"
+              label: "My page name",
+              height: "46"
             }, {}, {
               id: "logout",
               view: "button",
@@ -27951,9 +27979,9 @@ webix.protoUI({
 		select: true,
 		scroll: false,
 		collapsed: false,
-		collapsedWidth: 41,
+		collapsedWidth: -2,
 		position: "left",
-		width: 250,
+		width: 298,
 		mouseEventDelay: 10
 	},
 	$init: function $init(config) {
@@ -27989,8 +28017,7 @@ webix.protoUI({
 			var parentId = this.getParentId(id);
 			this.addCss(parentId, "webix_sidebar_selected");
 			var title = this.getPopupTitle();
-
-			title.callEvent("onMasterSelect", [id]);
+			if (title) title.callEvent("onMasterSelect", [id]);
 		});
 		this.attachEvent("onMouseMove", function (id, ev, node) {
 			this._showPopup(id, node);
@@ -28118,7 +28145,9 @@ webix.protoUI({
 	},
 	getPopupTitle: function getPopupTitle() {
 		var popup = this.getPopup();
-		return popup.getBody().getChildViews()[0];
+		if (popup) {
+			return popup.getBody().getChildViews()[0];
+		}
 	},
 	getPopupList: function getPopupList() {
 		var popup = this.getPopup();
@@ -28239,7 +28268,7 @@ exports = module.exports = __webpack_require__(33)(undefined);
 
 
 // module
-exports.push([module.i, ".myBackgroundColor {\r\n\tbackground: #3498db!important;\r\n\tcolor:white;\r\n}\r\n\r\n/* SideBar*/\r\n.webix_sidebar{\r\n\tbackground: white;\r\n}\r\n.webix_sidebar .webix_tree_item {\r\n\tcolor: #454545;\r\n\theight: 35px;\r\n\tline-height: 35px;\r\n}\r\n.webix_sidebar .webix_scroll_cont > .webix_tree_leaves {\r\n\tpadding: 0;\r\n}\r\n.webix_sidebar .webix_tree_leaves .webix_tree_leaves {\r\n\tmargin-left: 0px;\r\n}\r\n.webix_sidebar_selected,\r\n.webix_sidebar_expanded .webix_tree_item:hover{\r\n\tbackground-color: rgba(0,0,0,0.02);\r\n}\r\n.webix_sidebar .webix_tree_item.webix_selected,\r\n.webix_sidebar .webix_tree_item.webix_selected span{\r\n\tbackground-color: #3498db;\r\n\tcolor: white;\r\n\tpadding-right:0;\r\n}\r\n.webix_sidebar .webix_tree_branch_1 .webix_tree_item{\r\n\tpadding-left:40px;\r\n}\r\n.webix_sidebar .webix_tree_branch_1>.webix_tree_item{\r\n\theight: 40px;\r\n\tline-height: 40px;\r\n\tpadding-left:0;\r\n}\r\n.webix_sidebar .webix_tree_branch_1{\r\n\tborder-bottom:1px solid #e5e5e5;\r\n}\r\n.webix_sidebar .webix_tree_item.webix_selected span,\r\n.webix_sidebar .webix_tree_item span{\r\n\tmargin:0;\r\n\tpadding:0px;\r\n}\r\n.webix_sidebar_icon{\r\n\twidth: 40px;\r\n\ttext-align: center;\r\n}\r\n\r\n.webix_sidebar_dir_icon{\r\n\tfloat: right;\r\n\tline-height: inherit;\r\n}\r\n\r\n/*SubMenu (Popup) */\r\n.webix_sidebar_popup{\r\n\tborder:none !important;\r\n\tbox-shadow: 2px 3px 3px #ddd;\r\n}\r\n.webix_sidebar_popup, .webix_sidebar_popup .webix_list_item{\r\n\tborder-radius:0;\r\n}\r\n.webix_sidebar_popup_right{\r\n\tbox-shadow: -1px 3px 3px #ddd;\r\n}\r\n/*SubMenu: title*/\r\n.webix_sidebar_popup_title{\r\n\tbackground: #ECEFF1;\r\n}\r\n.webix_sidebar_popup_title.webix_selected{\r\n\tborder-left-color: #3498db;\r\n\tbackground: #3498db;\r\n}\r\n.webix_sidebar_popup_title .webix_template{\r\n\tline-height: 40px;\r\n\tpadding: 0 10px;\r\n\tborder: 1px solid #E5E5E5;\r\n\tborder-left:none;\r\n}\r\n.webix_sidebar_selected.webix_sidebar_popup_title .webix_template{\r\n\tbackground: rgba(0,0,0,0.03);\r\n\tborder-left: none;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item{\r\n\tborder-left: 1px solid #E5E5E5;\r\n\tborder-right: 1px solid #E5E5E5;\r\n}\r\n/*SubMenu: list*/\r\n.webix_sidebar_popup_list .webix_list_item:first-child{\r\n\tborder-top: 1px solid #E5E5E5;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item:hover{\r\n\tbackground: #f6f9fb;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item .webix_selected{\r\n\tbackground: #3498db !important;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item .webix_selected:hover{\r\n\tbackground: #3498db !important;\r\n}\r\n", ""]);
+exports.push([module.i, ".myBackgroundColor {\r\n\tbackground: #3498db!important;\r\n\tcolor:white;\r\n}\r\n\r\n/* SideBar*/\r\n.webix_sidebar{\r\n\tbackground: white;\r\n}\r\n.webix_sidebar .webix_tree_item {\r\n\tcolor: #454545;\r\n\theight: 48px;\r\n\tline-height: 48px;\r\n}\r\n.webix_sidebar .webix_scroll_cont > .webix_tree_leaves {\r\n\tpadding: 0;\r\n}\r\n.webix_sidebar .webix_tree_leaves .webix_tree_leaves {\r\n\tmargin-left: 0px;\r\n}\r\n.webix_sidebar_selected,\r\n.webix_sidebar_expanded .webix_tree_item:hover{\r\n\tbackground-color: rgba(0,0,0,0.02);\r\n}\r\n.webix_sidebar .webix_tree_item.webix_selected,\r\n.webix_sidebar .webix_tree_item.webix_selected span{\r\n\tbackground-color: #3498db;\r\n\tcolor: white;\r\n\tpadding-right:0;\r\n}\r\n.webix_sidebar .webix_tree_branch_1 .webix_tree_item{\r\n\tpadding-left:40px;\r\n}\r\n.webix_sidebar .webix_tree_branch_1>.webix_tree_item{\r\n\theight: 48px;\r\n\tline-height: 48px;\r\n\tpadding-left:0;\r\n}\r\n.webix_sidebar .webix_tree_branch_1{\r\n\tborder-bottom:1px solid #e5e5e5;\r\n}\r\n.webix_sidebar .webix_tree_item.webix_selected span,\r\n.webix_sidebar .webix_tree_item span{\r\n\tmargin:0;\r\n\tpadding:0px;\r\n}\r\n.webix_sidebar_icon{\r\n\twidth: 40px;\r\n\ttext-align: center;\r\n}\r\n\r\n.webix_sidebar_dir_icon{\r\n\tfloat: right;\r\n\tline-height: inherit;\r\n}\r\n\r\n/*SubMenu (Popup) */\r\n.webix_sidebar_popup{\r\n\tborder:none !important;\r\n\tbox-shadow: 2px 3px 3px #ddd;\r\n}\r\n.webix_sidebar_popup, .webix_sidebar_popup .webix_list_item{\r\n\tborder-radius:0;\r\n}\r\n.webix_sidebar_popup_right{\r\n\tbox-shadow: -1px 3px 3px #ddd;\r\n}\r\n/*SubMenu: title*/\r\n.webix_sidebar_popup_title{\r\n\tbackground: #ECEFF1;\r\n}\r\n.webix_sidebar_popup_title.webix_selected{\r\n\tborder-left-color: #3498db;\r\n\tbackground: #3498db;\r\n}\r\n.webix_sidebar_popup_title .webix_template{\r\n\tline-height: 40px;\r\n\tpadding: 0 10px;\r\n\tborder: 1px solid #E5E5E5;\r\n\tborder-left:none;\r\n}\r\n.webix_sidebar_selected.webix_sidebar_popup_title .webix_template{\r\n\tbackground: rgba(0,0,0,0.03);\r\n\tborder-left: none;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item{\r\n\tborder-left: 1px solid #E5E5E5;\r\n\tborder-right: 1px solid #E5E5E5;\r\n}\r\n/*SubMenu: list*/\r\n.webix_sidebar_popup_list .webix_list_item:first-child{\r\n\tborder-top: 1px solid #E5E5E5;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item:hover{\r\n\tbackground: #f6f9fb;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item .webix_selected{\r\n\tbackground: #3498db !important;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item .webix_selected:hover{\r\n\tbackground: #3498db !important;\r\n}\r\n", ""]);
 
 // exports
 

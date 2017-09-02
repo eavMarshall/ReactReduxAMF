@@ -7,9 +7,9 @@ webix.protoUI({
 		select: true,
 		scroll: false,
 		collapsed: false,
-		collapsedWidth: 41,
+		collapsedWidth: -2,
 		position: "left",
-		width: 250,
+		width: 298,
 		mouseEventDelay: 10
 	},
 	$init: function(config){
@@ -48,8 +48,8 @@ webix.protoUI({
 			var parentId = this.getParentId(id);
 			this.addCss(parentId, "webix_sidebar_selected");
 			var title = this.getPopupTitle();
-
-			title.callEvent("onMasterSelect",[id]);
+			if (title)
+				title.callEvent("onMasterSelect",[id]);
 		});
 		this.attachEvent("onMouseMove", function(id, ev, node){
 			this._showPopup(id, node);
@@ -190,7 +190,9 @@ webix.protoUI({
 	},
 	getPopupTitle: function(){
 		var popup = this.getPopup();
-		return popup.getBody().getChildViews()[0];
+		if (popup) {
+			return popup.getBody().getChildViews()[0];
+		}
 	},
 	getPopupList: function(){
 		var popup = this.getPopup();
