@@ -25,6 +25,10 @@ class SideMenuPage extends WRComponent {
     } else {
       this.sideBarMenu = props.sideBarMenu;
     }
+    if (null != props.firstSelectedID)
+      this.firstSelectedID = props.firstSelectedID;
+    else
+      this.firstSelectedID = "home";
   }
   setWebixData(data) { }
 
@@ -55,7 +59,11 @@ class SideMenuPage extends WRComponent {
   }
 
   aftercomponentDidMount() {
-    $$("SideMenu").config.popupId = "home";
+    let menuItems = document.querySelectorAll('[webix_tm_id="'+this.firstSelectedID+'"]');
+    let menuItem = menuItems[0];
+    if (null != menuItem) {
+      menuItem.click();
+    }
   }
 
   getLayout() {
@@ -85,6 +93,7 @@ class SideMenuPage extends WRComponent {
         ]},
         {rows: [
           { view: "toolbar",
+            css: "toolbar",
             elements: [
               {
                 view: "button",
@@ -100,7 +109,7 @@ class SideMenuPage extends WRComponent {
               {
                 id: "toolbar_label",
                 view: "label",
-                label: "My page name",
+                label: "",
                 height:"46",
               },
               {},

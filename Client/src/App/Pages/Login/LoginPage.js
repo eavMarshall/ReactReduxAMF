@@ -8,6 +8,11 @@ export default class LoginPage extends WRComponent {
 
   login() {
     if (this.message != null) webix.message.hide(this.message);
+    webix.extend(this.ui, webix.ProgressBar);
+    this.ui.showProgress({
+       type:"icon",
+       delay:1000
+    });
     $$('LoginPageLoginButton').disable();
     /*
       //To your login request here
@@ -33,7 +38,9 @@ export default class LoginPage extends WRComponent {
         }
       );
     */
-    Store.dispatch({ type: '@App.LoggedIn', value: true });
+    setTimeout(function() {
+      Store.dispatch({ type: '@App.LoggedIn', value: true });
+    }, 1000);
   }
 
   getLayout() {

@@ -2,6 +2,14 @@
 	background: #3498db!important;
 	color:white;
 }
+.toolbar {
+	border-width: 0px!important;
+}
+
+.webix_selected {
+    background: #3498db;
+    color: #fff;
+}
 
 /* SideBar*/
 .webix_sidebar{
