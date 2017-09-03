@@ -24044,7 +24044,7 @@ exports = module.exports = __webpack_require__(33)(undefined);
 
 
 // module
-exports.push([module.i, "html, body {\r\n  margin: 0;\r\n  padding: 0;\r\n  height: 100%;\r\n  width: 100%;\r\n  font-family: sans-serif;\r\n}\r\n\r\n.fullScreen {\r\n  margin: 0;\r\n  height: 100%;\r\n  width: 100%;\r\n}\r\n\r\n.webix_view {\r\n  height: 100%;\r\n  width: 100%;\r\n}\r\n", ""]);
+exports.push([module.i, "html, body {\r\n  margin: 0;\r\n  padding: 0;\r\n  height: 100%;\r\n  width: 100%;\r\n  font-family: sans-serif;\r\n}\r\n\r\n.fullScreen {\r\n  margin: 0;\r\n  height: 100%;\r\n  width: 100%;\r\n}\r\n", ""]);
 
 // exports
 
@@ -27683,6 +27683,11 @@ var LoginPage = function (_WRComponent) {
     key: 'login',
     value: function login() {
       if (this.message != null) webix.message.hide(this.message);
+      webix.extend(this.ui, webix.ProgressBar);
+      this.ui.showProgress({
+        type: "icon",
+        delay: 1000
+      });
       $$('LoginPageLoginButton').disable();
       /*
         //To your login request here
@@ -27708,7 +27713,9 @@ var LoginPage = function (_WRComponent) {
           }
         );
       */
-      _Store2.default.dispatch({ type: '@App.LoggedIn', value: true });
+      setTimeout(function () {
+        _Store2.default.dispatch({ type: '@App.LoggedIn', value: true });
+      }, 1000);
     }
   }, {
     key: 'getLayout',
@@ -27864,6 +27871,7 @@ var SideMenuPage = function (_WRComponent) {
     } else {
       _this.sideBarMenu = props.sideBarMenu;
     }
+    if (null != props.firstSelectedID) _this.firstSelectedID = props.firstSelectedID;else _this.firstSelectedID = "home";
     return _this;
   }
 
@@ -27902,7 +27910,11 @@ var SideMenuPage = function (_WRComponent) {
   }, {
     key: 'aftercomponentDidMount',
     value: function aftercomponentDidMount() {
-      $$("SideMenu").config.popupId = "home";
+      var menuItems = document.querySelectorAll('[webix_tm_id="' + this.firstSelectedID + '"]');
+      var menuItem = menuItems[0];
+      if (null != menuItem) {
+        menuItem.click();
+      }
     }
   }, {
     key: 'getLayout',
@@ -27925,6 +27937,7 @@ var SideMenuPage = function (_WRComponent) {
               onAfterSelect: this.sideBarItemSelectHandler.bind(this)
             }
           }] }, { rows: [{ view: "toolbar",
+            css: "toolbar",
             elements: [{
               view: "button",
               type: "icon",
@@ -27938,7 +27951,7 @@ var SideMenuPage = function (_WRComponent) {
             }, {
               id: "toolbar_label",
               view: "label",
-              label: "My page name",
+              label: "",
               height: "46"
             }, {}, {
               id: "logout",
@@ -28267,7 +28280,7 @@ exports = module.exports = __webpack_require__(33)(undefined);
 
 
 // module
-exports.push([module.i, ".myBackgroundColor {\r\n\tbackground: #3498db!important;\r\n\tcolor:white;\r\n}\r\n\r\n/* SideBar*/\r\n.webix_sidebar{\r\n\tbackground: white;\r\n}\r\n.webix_sidebar .webix_tree_item {\r\n\tcolor: #454545;\r\n\theight: 48px;\r\n\tline-height: 48px;\r\n}\r\n.webix_sidebar .webix_scroll_cont > .webix_tree_leaves {\r\n\tpadding: 0;\r\n}\r\n.webix_sidebar .webix_tree_leaves .webix_tree_leaves {\r\n\tmargin-left: 0px;\r\n}\r\n.webix_sidebar_selected,\r\n.webix_sidebar_expanded .webix_tree_item:hover{\r\n\tbackground-color: rgba(0,0,0,0.02);\r\n}\r\n.webix_sidebar .webix_tree_item.webix_selected,\r\n.webix_sidebar .webix_tree_item.webix_selected span{\r\n\tbackground-color: #3498db;\r\n\tcolor: white;\r\n\tpadding-right:0;\r\n}\r\n.webix_sidebar .webix_tree_branch_1 .webix_tree_item{\r\n\tpadding-left:40px;\r\n}\r\n.webix_sidebar .webix_tree_branch_1>.webix_tree_item{\r\n\theight: 48px;\r\n\tline-height: 48px;\r\n\tpadding-left:0;\r\n}\r\n.webix_sidebar .webix_tree_branch_1{\r\n\tborder-bottom:1px solid #e5e5e5;\r\n}\r\n.webix_sidebar .webix_tree_item.webix_selected span,\r\n.webix_sidebar .webix_tree_item span{\r\n\tmargin:0;\r\n\tpadding:0px;\r\n}\r\n.webix_sidebar_icon{\r\n\twidth: 40px;\r\n\ttext-align: center;\r\n}\r\n\r\n.webix_sidebar_dir_icon{\r\n\tfloat: right;\r\n\tline-height: inherit;\r\n}\r\n\r\n/*SubMenu (Popup) */\r\n.webix_sidebar_popup{\r\n\tborder:none !important;\r\n\tbox-shadow: 2px 3px 3px #ddd;\r\n}\r\n.webix_sidebar_popup, .webix_sidebar_popup .webix_list_item{\r\n\tborder-radius:0;\r\n}\r\n.webix_sidebar_popup_right{\r\n\tbox-shadow: -1px 3px 3px #ddd;\r\n}\r\n/*SubMenu: title*/\r\n.webix_sidebar_popup_title{\r\n\tbackground: #ECEFF1;\r\n}\r\n.webix_sidebar_popup_title.webix_selected{\r\n\tborder-left-color: #3498db;\r\n\tbackground: #3498db;\r\n}\r\n.webix_sidebar_popup_title .webix_template{\r\n\tline-height: 40px;\r\n\tpadding: 0 10px;\r\n\tborder: 1px solid #E5E5E5;\r\n\tborder-left:none;\r\n}\r\n.webix_sidebar_selected.webix_sidebar_popup_title .webix_template{\r\n\tbackground: rgba(0,0,0,0.03);\r\n\tborder-left: none;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item{\r\n\tborder-left: 1px solid #E5E5E5;\r\n\tborder-right: 1px solid #E5E5E5;\r\n}\r\n/*SubMenu: list*/\r\n.webix_sidebar_popup_list .webix_list_item:first-child{\r\n\tborder-top: 1px solid #E5E5E5;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item:hover{\r\n\tbackground: #f6f9fb;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item .webix_selected{\r\n\tbackground: #3498db !important;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item .webix_selected:hover{\r\n\tbackground: #3498db !important;\r\n}\r\n", ""]);
+exports.push([module.i, ".myBackgroundColor {\r\n\tbackground: #3498db!important;\r\n\tcolor:white;\r\n}\r\n.toolbar {\r\n\tborder-width: 0px!important;\r\n}\r\n\r\n.webix_selected {\r\n    background: #3498db;\r\n    color: #fff;\r\n}\r\n\r\n/* SideBar*/\r\n.webix_sidebar{\r\n\tbackground: white;\r\n}\r\n.webix_sidebar .webix_tree_item {\r\n\tcolor: #454545;\r\n\theight: 48px;\r\n\tline-height: 48px;\r\n}\r\n.webix_sidebar .webix_scroll_cont > .webix_tree_leaves {\r\n\tpadding: 0;\r\n}\r\n.webix_sidebar .webix_tree_leaves .webix_tree_leaves {\r\n\tmargin-left: 0px;\r\n}\r\n.webix_sidebar_selected,\r\n.webix_sidebar_expanded .webix_tree_item:hover{\r\n\tbackground-color: rgba(0,0,0,0.02);\r\n}\r\n.webix_sidebar .webix_tree_item.webix_selected,\r\n.webix_sidebar .webix_tree_item.webix_selected span{\r\n\tbackground-color: #3498db;\r\n\tcolor: white;\r\n\tpadding-right:0;\r\n}\r\n.webix_sidebar .webix_tree_branch_1 .webix_tree_item{\r\n\tpadding-left:40px;\r\n}\r\n.webix_sidebar .webix_tree_branch_1>.webix_tree_item{\r\n\theight: 48px;\r\n\tline-height: 48px;\r\n\tpadding-left:0;\r\n}\r\n.webix_sidebar .webix_tree_branch_1{\r\n\tborder-bottom:1px solid #e5e5e5;\r\n}\r\n.webix_sidebar .webix_tree_item.webix_selected span,\r\n.webix_sidebar .webix_tree_item span{\r\n\tmargin:0;\r\n\tpadding:0px;\r\n}\r\n.webix_sidebar_icon{\r\n\twidth: 40px;\r\n\ttext-align: center;\r\n}\r\n\r\n.webix_sidebar_dir_icon{\r\n\tfloat: right;\r\n\tline-height: inherit;\r\n}\r\n\r\n/*SubMenu (Popup) */\r\n.webix_sidebar_popup{\r\n\tborder:none !important;\r\n\tbox-shadow: 2px 3px 3px #ddd;\r\n}\r\n.webix_sidebar_popup, .webix_sidebar_popup .webix_list_item{\r\n\tborder-radius:0;\r\n}\r\n.webix_sidebar_popup_right{\r\n\tbox-shadow: -1px 3px 3px #ddd;\r\n}\r\n/*SubMenu: title*/\r\n.webix_sidebar_popup_title{\r\n\tbackground: #ECEFF1;\r\n}\r\n.webix_sidebar_popup_title.webix_selected{\r\n\tborder-left-color: #3498db;\r\n\tbackground: #3498db;\r\n}\r\n.webix_sidebar_popup_title .webix_template{\r\n\tline-height: 40px;\r\n\tpadding: 0 10px;\r\n\tborder: 1px solid #E5E5E5;\r\n\tborder-left:none;\r\n}\r\n.webix_sidebar_selected.webix_sidebar_popup_title .webix_template{\r\n\tbackground: rgba(0,0,0,0.03);\r\n\tborder-left: none;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item{\r\n\tborder-left: 1px solid #E5E5E5;\r\n\tborder-right: 1px solid #E5E5E5;\r\n}\r\n/*SubMenu: list*/\r\n.webix_sidebar_popup_list .webix_list_item:first-child{\r\n\tborder-top: 1px solid #E5E5E5;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item:hover{\r\n\tbackground: #f6f9fb;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item .webix_selected{\r\n\tbackground: #3498db !important;\r\n}\r\n.webix_sidebar_popup_list .webix_list_item .webix_selected:hover{\r\n\tbackground: #3498db !important;\r\n}\r\n", ""]);
 
 // exports
 
