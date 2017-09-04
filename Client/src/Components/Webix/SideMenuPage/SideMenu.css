@@ -1,0 +1,18 @@
+.sidenav {
+    width: 300px;
+    height: 100%!important;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: white;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.sidenavmain {
+    marginLeft : 300px;
+    border-width: 0px!important;
+  	width:100%!important;
+    transition: 0.5s;
+}

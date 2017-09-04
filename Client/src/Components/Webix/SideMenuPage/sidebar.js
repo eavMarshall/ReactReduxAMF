@@ -131,7 +131,9 @@ webix.protoUI({
 				body:{
 					rows:[
 						{
-							view: "template", 	borderless: true, css: "webix_sidebar_popup_title",
+							view: "template",
+							borderless: true,
+							css: "webix_sidebar_popup_title",
 							template: "#value#", height: this.config.titleHeight+2,
 							on:{
 								onMasterSelect: function(id){
@@ -153,7 +155,12 @@ webix.protoUI({
 								}
 							}
 						},
-						{ view: "list", select: true, 	borderless: true, css: "webix_sidebar_popup_list",  autoheight: true,
+						{
+							view: "list",
+							select: true,
+							borderless: true,
+							css: "webix_sidebar_popup_list",
+							autoheight: true,
 							on:{
 								onAfterSelect: function(id){
 									$$(top.config.popupId).master.select(id);

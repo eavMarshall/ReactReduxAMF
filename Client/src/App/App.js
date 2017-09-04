@@ -8,7 +8,9 @@ import LoginPage from './Pages/Login/LoginPage.js';
 import MainPage from './Pages/MainPage/MainPage.js';
 import AppReducer from './AppReducer.js'; // call this after store
 
-class App extends Component {
+import SideMenuPage from '../Components/Webix/SideMenuPage/SideMenuPage.js';
+
+export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = { LoggedIn : false };
@@ -20,10 +22,12 @@ class App extends Component {
   render() {
     return (
       <Provider store={Store}>
-        { !this.state.LoggedIn ? <LoginPage/> : <MainPage/> }
+        { !this.state.LoggedIn ? <LoginPage/> :
+          <SideMenuPage className="fullScreen">
+            <div className="fullScreen">Inner div</div>
+          </SideMenuPage>
+        }
       </Provider>
     );
   }
 }
-
-export default App;

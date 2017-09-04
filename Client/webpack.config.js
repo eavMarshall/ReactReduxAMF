@@ -29,6 +29,7 @@ var config = {
       { test: /\.(png|jpg|gif|svg)$/, loader: 'url-loader' },
     ]
   },
+
 /*
   plugins: [
     new UglifyJSPlugin()

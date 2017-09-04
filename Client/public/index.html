@@ -7,7 +7,7 @@
     <link rel="manifest" href="./manifest.json">
     <link rel="shortcut icon" href="./favicon.ico">
     <style>
-      .fitLoadingImage { /* set relative picture size */
+      .fitLoadingImage {
         max-width: 50%;
         max-height: 50%;
       }
@@ -45,8 +45,10 @@
         let script = document.createElement("script");
         script.setAttribute("src","./js/bundle.js");
         document.body.appendChild(script);
-        let loadingImage = document.getElementById("loadingImage");
-        loadingImage.parentNode.removeChild(loadingImage);
+        script.addEventListener('load', function() {
+          let loadingImage = document.getElementById("loadingImage");
+          loadingImage.parentNode.removeChild(loadingImage);
+        });
       }
     </script>
   </body>

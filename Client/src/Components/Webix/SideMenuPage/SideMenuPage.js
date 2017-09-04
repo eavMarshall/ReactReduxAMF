@@ -1,36 +1,78 @@
-import WRComponent from '../WRComponent.js';
+import React, { Component } from 'react';
+import ReactDOM, { render } from 'react-dom';
 import './sidebar.js';
 require("./sidebar.css");
+import SideMenu from './SideMenu.js';
+import ToolBar from './ToolBar.js';
+require("./SideMenu.css");
 
-class SideMenuPage extends WRComponent {
+export default class SideMenuPage extends Component {
   constructor(props) {
     super(props);
-    if (null == props.sideBarMenu) {
-      this.sideBarMenu = [
-          { id: "home",icon: "home", value: "Home"},
-          {id: "dashboard", icon: "dashboard", value: "Dashboards",  data:[
-              { id: "dashboard1", value: "Dashboard 1"},
-              { id: "dashboard2", value: "Dashboard 2"}
-          ]},
-          {id: "layouts", icon: "columns", value:"Layouts", data:[
-              { id: "accordions", value: "Accordions"},
-              { id: "portlets", value: "Portlets"}
-          ]},
-          {id: "tables", icon: "table", value:"Data Tables", data:[
-              { id: "tables1", value: "Datatable"},
-              { id: "tables2", value: "TreeTable"},
-              { id: "tables3", value: "Pivot"}
-          ]}
-      ];
+    this.state = { toolBarLabel: "", LoggedIn : false };
+  }
+  onMenuOpen() {
+    if (this.refs.sidenav.refs.root.firstChild.style.width == "0px") {
+      this.refs.sidenav.refs.root.firstChild.style.width = "300px";
+      this.refs.sidenavmain.style.marginLeft = "300px";
     } else {
-      this.sideBarMenu = props.sideBarMenu;
+      this.refs.sidenav.refs.root.firstChild.style.width = "0px";
+      this.refs.sidenavmain.style.marginLeft = "0px";
     }
-    if (null != props.firstSelectedID)
-      this.firstSelectedID = props.firstSelectedID;
-    else
-      this.firstSelectedID = "home";
+    this.refs.ToolBar.adjust();
+  }
+  componentDidMount() {
+    this.refs.sidenav.refs.root.firstChild.style.width = "0px";
+    this.refs.sidenavmain.style.marginLeft = "0px";
+  }
+  onMenuChange(label) {
+    console.log(label);
+    this.setState({toolBarLabel:label});
+    console.log(this.state);
+  }
+  render() {
+    return (
+      <div>
+        <SideMenu ref="sidenav" onMenuChange={this.onMenuChange.bind(this)}/>
+        <div ref="sidenavmain">
+          <ToolBar ref="ToolBar" onMenuOpen={this.onMenuOpen.bind(this)} toolBarLabel={this.state.toolBarLabel}/>
+          {this.props.children}
+        </div>
+      </div>
+    );
+  }
+}
+  /*
+  constructor(props) {
+    super(props);
+    this.sideBarMenu = (null == props.sideBarMenu) ? [
+        { id: "home",icon: "home", value: "Home"},
+        {id: "dashboard", icon: "dashboard", value: "Dashboards",  data:[
+            { id: "dashboard1", value: "Dashboard 1"},
+            { id: "dashboard2", value: "Dashboard 2"}
+        ]},
+        {id: "layouts", icon: "columns", value:"Layouts", data:[
+            { id: "accordions", value: "Accordions"},
+            { id: "portlets", value: "Portlets"}
+        ]},
+        {id: "tables", icon: "table", value:"Data Tables", data:[
+            { id: "tables1", value: "Datatable"},
+            { id: "tables2", value: "TreeTable"},
+            { id: "tables3", value: "Pivot"}
+        ]}
+    ] : props.sideBarMenu;
+
+    this.firstSelectedID = (null != props.firstSelectedID) ? props.firstSelectedID : "home";
+    this.minWidth = (null != props.minWidth) ? props.minWidth : 1000;
   }
   setWebixData(data) { }
+  windowsResize(event) {
+    if (window.innerWidth < this.minWidth) {
+      $$("SideMenu").collapse();
+    } else {
+      $$("SideMenu").expand();
+    }
+  }
 
   logout() {
     console.log("not implemented");
@@ -56,6 +98,7 @@ class SideMenuPage extends WRComponent {
   sideBarItemSelectHandler(id) {
     $$("toolbar_label").define("label", this.getSelectedMenuName(id));
     $$("toolbar_label").refresh();
+    this.windowsResize();
   }
 
   aftercomponentDidMount() {
@@ -64,6 +107,7 @@ class SideMenuPage extends WRComponent {
     if (null != menuItem) {
       menuItem.click();
     }
+    this.windowsResize();
   }
 
   getLayout() {
@@ -135,5 +179,4 @@ class SideMenuPage extends WRComponent {
     ]};
   }
 }
-
-export default SideMenuPage;
+*/

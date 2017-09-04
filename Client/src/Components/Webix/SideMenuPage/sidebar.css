@@ -2,9 +2,6 @@
 	background: #3498db!important;
 	color:white;
 }
-.toolbar {
-	border-width: 0px!important;
-}
 
 .webix_selected {
     background: #3498db;
@@ -14,6 +11,7 @@
 /* SideBar*/
 .webix_sidebar{
 	background: white;
+	height: 100%!important;
 }
 .webix_sidebar .webix_tree_item {
 	color: #454545;

@@ -3,6 +3,9 @@ import './MainPage.css';
 import amfClient from '../../../Components/amf/amfClient.js';
 import Store from '../../Store.js';
 
+//pages
+import HomePage from './Modules/HomePage/HomePage.js';
+
 export default class MainPage extends SideMenuPage {
   constructor(props) {
     super(props);
