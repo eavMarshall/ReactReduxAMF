@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
-import SideMenuPage from '../../../Components/Webix/SideMenuPage/SideMenuPage.js';
 import ActionLogin from '../../Actions.js';
 import * as actions from './Actions.js';
-import SideMenu from '../../../Components/Webix/SideMenuPage/SideMenu/SideMenu.js';
-import ToolBar from '../../../Components/Webix/SideMenuPage/ToolBar/ToolBar.js';
+import SideMenu from '../../../Components/Webix/SideMenu/SideMenu.js';
+import ToolBar from '../../../Components/Webix/ToolBar/ToolBar.js';
 import './MainPage.css';
 
 class MainPage extends Component {
@@ -40,15 +39,28 @@ class MainPage extends Component {
       case 'tables2': return <div>TreeTable- this is a child div</div>;
       case 'tables3': return <div>Pivot - this is a child div</div>;
     }
-    return <div>Blank page????</div>;
+    return <img id="loadingImage" className="fitLoadingImage centerLoadingImage loadingImageSpin" src="react.svg"></img>;
   }
 
   render() {
     return (
-      <div>
-        <SideMenu ref="sidenav" onMenuChange={this.onMenuChange.bind(this)} label={this.props.appName} sideBarMenu={this.props.sideBarMenu}/>
-        <div ref="sidenavmain">
-          <ToolBar ref="ToolBar" onMenuOpen={this.onMenuOpen.bind(this)} toolBarLabel={this.props.toolBarLabel} logout={this.onlogout.bind(this)}/>
+      <div id="root">
+        <div>
+          <SideMenu
+            ref="sidenav"
+            onMenuChange={this.onMenuChange.bind(this)}
+            label={this.props.appName}
+            sideBarMenu={this.props.sideBarMenu}
+            auth = {this.props.auth}
+          />
+        </div>
+        <div ref="sidenavmain" className="fullScreen">
+          <ToolBar
+            ref="ToolBar"
+            onMenuOpen={this.onMenuOpen.bind(this)}
+            toolBarLabel={this.props.toolBarLabel}
+            logout={this.onlogout.bind(this)}
+          />
           { this.getPage() }
         </div>
       </div>
@@ -65,7 +77,8 @@ function matchDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    LoginStatus: state.App.status.Login,
+    LoginStatus: state.Session.status.Login,
+    auth: state.Session.auth,
     appName: state.App.info.appName,
     toolBarLabel: state.App.info.toolBarLabel.value,
     pageid: state.App.info.toolBarLabel.id,

@@ -1,9 +1,13 @@
-import WRComponent from '../../WRComponent.js';
+import WRComponent from '../WRComponent.js';
 import './toolbar.css';
 export default class ToolBar extends WRComponent {
+  constructor(props) {
+    super(props);
+    this.rootClass="toolBarHeight";
+  }
   setWebixData(state) {
     let toolBarLabel = $$("toolBarLabel");
-    toolBarLabel.define({ label : state.toolBarLabel });
+    toolBarLabel.define({ label : state.toolBarLabel == null ? "" : state.toolBarLabel });
     toolBarLabel.refresh();
   }
   getLayout() {
@@ -22,7 +26,8 @@ export default class ToolBar extends WRComponent {
         {
           id: "toolBarLabel",
           view: "label",
-          label: this.props.toolBarLabel,
+          css: "toolBarHeight",
+          label: this.props.toolBarLabel == null ? "" : this.props.toolBarLabel,
           height:"46",
         },
         {},

@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
-import AppReducer from './App/Reducer.js';
+import * as App from './App/Reducer.js';
 import MainPageReducer from './App/Modules/MainPage/Reducer.js';
 
 const AllReducers = combineReducers({
-  App: AppReducer,
+  Session: App.SessionReducer,
+  App: App.AppReducer,
   MainPage: MainPageReducer
 })
 

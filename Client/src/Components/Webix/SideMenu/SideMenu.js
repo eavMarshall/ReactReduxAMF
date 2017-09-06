@@ -1,4 +1,4 @@
-import WRComponent from '../../WRComponent.js';
+import WRComponent from '../WRComponent.js';
 import './sidebar.js';
 require("./sidebar.css");
 require("./SideMenu.css");
@@ -6,7 +6,7 @@ require("./SideMenu.css");
 class SideMenuPage extends WRComponent {
   constructor(props) {
     super(props);
-    this.sideBarMenu = (null == props.sideBarMenu) ? [
+    var sideBarMenu = (null == props.sideBarMenu) ? [
         { id: "home",icon: "home", value: "Home"},
         {id: "dashboard", icon: "dashboard", value: "Dashboards",  data:[
             { id: "dashboard1", value: "Dashboard 1"},
@@ -22,6 +22,23 @@ class SideMenuPage extends WRComponent {
             { id: "tables3", value: "Pivot"}
         ]}
     ] : props.sideBarMenu;
+
+    this.sideBarMenu = [];
+    for (var i = 0; i < sideBarMenu.length; i++) {
+      if (props.auth.indexOf(sideBarMenu[i].id) != -1 && sideBarMenu[i].data == null) {
+        this.sideBarMenu.push(Object.assign({}, sideBarMenu[i]));
+      } else if (props.auth.indexOf(sideBarMenu[i].id) != -1) {
+        this.sideBarMenu.push(Object.assign({}, sideBarMenu[i]));
+        this.sideBarMenu[this.sideBarMenu.length-1].data = [];
+        for (var j = 0; j < sideBarMenu[i].data.length; j++) {
+          if (props.auth.indexOf(sideBarMenu[i].data[j].id) != -1) {
+            this.sideBarMenu[this.sideBarMenu.length-1].data.push(Object.assign({}, sideBarMenu[i].data[j]));
+          }
+        }
+      }
+    }
+
+
 
     this.firstSelectedID = (null != props.firstSelectedID) ? props.firstSelectedID : "home";
     this.minWidth = (null != props.minWidth) ? props.minWidth : 1000;

@@ -14,14 +14,14 @@
       .centerLoadingImage {
         display: block;
         margin: auto;
+        top: 25%;
+        left: 25%;
       }
       .loadingImageSpin {
-          position: absolute;
-          top: 25%;
-          left: 25%;
-          -webkit-animation:spin 4s linear infinite;
-          -moz-animation:spin 4s linear infinite;
-          animation:spin 4s linear infinite;
+        position: absolute;
+        -webkit-animation:spin 4s linear infinite;
+        -moz-animation:spin 4s linear infinite;
+        animation:spin 4s linear infinite;
       }
       @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
       @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
@@ -31,7 +31,7 @@
   	<link rel="stylesheet" type="text/css" href="https://cdn.webix.com/4.4/webix.css">
   </head>
   <body>
-    <img id="loadingImage" class="fitLoadingImage centerLoadingImage loadingImageSpin" src="react.svg">
+    <img id="loadingImage" class="fitLoadingImage centerLoadingImage loadingImageSpin" src="react.svg"></img>
     <noscript>
       <div style="text-align: center; vertical-align: middle;">You need to enable JavaScript to run this app.</div>
     </noscript>

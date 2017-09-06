@@ -13,10 +13,12 @@ export default class WRComponent extends Component {
     if (null == this.setWebixData) {
       throw new Error("You must override "+this.constructor+".setWebixData()");
     }
+
+    this.rootClass = props.rootClass == null ? "fullScreen" : props.rootClass;
   }
 
   _windowsResize(event) { this.adjust(); this.windowsResize(event); }
-  render() { return (<div ref="root" className="fullScreen"></div>); }
+  render() { return (<div ref="root" className={this.rootClass}></div>); }
   componentWillUpdate(props) { this.setWebixData(props); }
   shouldComponentUpdate() { return true; }
 

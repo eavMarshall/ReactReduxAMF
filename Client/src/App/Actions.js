@@ -1,6 +1,6 @@
 export default function(action) {
   return {
-    type: '@App.Login',
+    type: '@Session.Login',
     payload: action
   };
 }

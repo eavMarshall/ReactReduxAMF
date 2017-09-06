@@ -16,7 +16,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    LoginStatus: state.App.status.Login
+    LoginStatus: state.Session.status.Login
   };
 }
 
