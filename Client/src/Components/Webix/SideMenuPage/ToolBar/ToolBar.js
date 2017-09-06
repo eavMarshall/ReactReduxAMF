@@ -1,5 +1,5 @@
 import WRComponent from '../../WRComponent.js';
-
+import './toolbar.css';
 export default class ToolBar extends WRComponent {
   setWebixData(state) {
     let toolBarLabel = $$("toolBarLabel");
@@ -14,9 +14,9 @@ export default class ToolBar extends WRComponent {
           view: "button",
           type: "icon",
           icon: "bars",
-          width: 37,
-          align: "left",
-          //css: "app_button",
+          width: 40,
+          align: "center",
+          css: "app_button",
           click: this.props.onMenuOpen
         },
         {

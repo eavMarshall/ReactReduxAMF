@@ -11994,6 +11994,8 @@ var _WRComponent2 = __webpack_require__(58);
 
 var _WRComponent3 = _interopRequireDefault(_WRComponent2);
 
+__webpack_require__(254);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -12012,14 +12014,14 @@ var ToolBar = function (_WRComponent) {
   }
 
   _createClass(ToolBar, [{
-    key: "setWebixData",
+    key: 'setWebixData',
     value: function setWebixData(state) {
       var toolBarLabel = $$("toolBarLabel");
       toolBarLabel.define({ label: state.toolBarLabel });
       toolBarLabel.refresh();
     }
   }, {
-    key: "getLayout",
+    key: 'getLayout',
     value: function getLayout() {
       return { view: "toolbar",
         css: "sidenavmain",
@@ -12027,9 +12029,9 @@ var ToolBar = function (_WRComponent) {
           view: "button",
           type: "icon",
           icon: "bars",
-          width: 37,
-          align: "left",
-          //css: "app_button",
+          width: 40,
+          align: "center",
+          css: "app_button",
           click: this.props.onMenuOpen
         }, {
           id: "toolBarLabel",
@@ -25807,7 +25809,7 @@ var _Actions2 = _interopRequireDefault(_Actions);
 
 var _Actions3 = __webpack_require__(242);
 
-var _Actions4 = _interopRequireDefault(_Actions3);
+var actions = _interopRequireWildcard(_Actions3);
 
 var _SideMenu = __webpack_require__(101);
 
@@ -25818,6 +25820,8 @@ var _ToolBar = __webpack_require__(103);
 var _ToolBar2 = _interopRequireDefault(_ToolBar);
 
 __webpack_require__(243);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25839,11 +25843,12 @@ var MainPage = function (_Component) {
   _createClass(MainPage, [{
     key: 'onMenuOpen',
     value: function onMenuOpen() {
-      if (this.refs.sidenav.refs.root.firstChild.style.width == "0px") {
-        this.refs.sidenav.refs.root.firstChild.style.width = "300px";
+      var menu = this.refs.sidenav.refs.root.firstChild;
+      if (menu.style.width == "0px") {
+        menu.style.width = "300px";
         this.refs.sidenavmain.style.marginLeft = "300px";
       } else {
-        this.refs.sidenav.refs.root.firstChild.style.width = "0px";
+        menu.style.width = "0px";
         this.refs.sidenavmain.style.marginLeft = "0px";
       }
 
@@ -25866,21 +25871,82 @@ var MainPage = function (_Component) {
       this.props.ActionLogin(false);
     }
   }, {
+    key: 'getPage',
+    value: function getPage() {
+      switch (this.props.pageid) {
+        case 'home':
+          return _react2.default.createElement(
+            'div',
+            null,
+            'Home - this is a child div'
+          );
+        case 'client':
+          return _react2.default.createElement(
+            'div',
+            null,
+            'Client - this is a child div'
+          );
+        case 'dashboard1':
+          return _react2.default.createElement(
+            'div',
+            null,
+            'Dashboards 1 - this is a child div'
+          );
+        case 'dashboard2':
+          return _react2.default.createElement(
+            'div',
+            null,
+            'Dashboards 2 - this is a child div'
+          );
+        case 'accordions':
+          return _react2.default.createElement(
+            'div',
+            null,
+            'Accordions - this is a child div'
+          );
+        case 'portlets':
+          return _react2.default.createElement(
+            'div',
+            null,
+            'Portlets - this is a child div'
+          );
+        case 'tables1':
+          return _react2.default.createElement(
+            'div',
+            null,
+            'Datatable - this is a child div'
+          );
+        case 'tables2':
+          return _react2.default.createElement(
+            'div',
+            null,
+            'TreeTable- this is a child div'
+          );
+        case 'tables3':
+          return _react2.default.createElement(
+            'div',
+            null,
+            'Pivot - this is a child div'
+          );
+      }
+      return _react2.default.createElement(
+        'div',
+        null,
+        'Blank page????'
+      );
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_SideMenu2.default, { ref: 'sidenav', onMenuChange: this.onMenuChange.bind(this), label: this.props.appName }),
+        _react2.default.createElement(_SideMenu2.default, { ref: 'sidenav', onMenuChange: this.onMenuChange.bind(this), label: this.props.appName, sideBarMenu: this.props.sideBarMenu }),
         _react2.default.createElement(
           'div',
           { ref: 'sidenavmain' },
           _react2.default.createElement(_ToolBar2.default, { ref: 'ToolBar', onMenuOpen: this.onMenuOpen.bind(this), toolBarLabel: this.props.toolBarLabel, logout: this.onlogout.bind(this) }),
-          _react2.default.createElement(
-            'div',
-            null,
-            'Hello world'
-          )
+          this.getPage()
         )
       );
     }
@@ -25892,7 +25958,7 @@ var MainPage = function (_Component) {
 function matchDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
     ActionLogin: _Actions2.default,
-    UpdateToolbar: _Actions4.default
+    UpdateToolbar: actions.ActionUpdateToolbar
   }, dispatch);
 }
 
@@ -25900,7 +25966,9 @@ function mapStateToProps(state) {
   return {
     LoginStatus: state.App.status.Login,
     appName: state.App.info.appName,
-    toolBarLabel: state.App.info.toolBarLabel.value
+    toolBarLabel: state.App.info.toolBarLabel.value,
+    pageid: state.App.info.toolBarLabel.id,
+    sideBarMenu: state.MainPage.sideBarMenu
   };
 }
 
@@ -26346,13 +26414,13 @@ exports.push([module.i, ".sidenav {\r\n    width: 300px;\r\n    height: 100%!imp
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-exports.default = function (action) {
+exports.ActionUpdateToolbar = ActionUpdateToolbar;
+function ActionUpdateToolbar(action) {
   return {
     type: '@App.UpdateToolBarLabel',
     payload: action
   };
-};
+}
 
 /***/ }),
 /* 243 */
@@ -26657,10 +26725,15 @@ var _Reducer = __webpack_require__(250);
 
 var _Reducer2 = _interopRequireDefault(_Reducer);
 
+var _Reducer3 = __webpack_require__(253);
+
+var _Reducer4 = _interopRequireDefault(_Reducer3);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var AllReducers = (0, _redux.combineReducers)({
-  App: _Reducer2.default
+  App: _Reducer2.default,
+  MainPage: _Reducer4.default
 });
 
 exports.default = AllReducers;
@@ -26749,6 +26822,80 @@ exports = module.exports = __webpack_require__(21)(undefined);
 
 // module
 exports.push([module.i, "body {\r\n  margin: 0;\r\n  padding: 0;\r\n  font-family: sans-serif;\r\n}\r\n\r\nhtml, body, .fullScreen, #root, [data-reactroot] {\r\n    margin: 0;\r\n    height: 100%!important;\r\n}\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 253 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+exports.default = function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultState;
+    var action = arguments[1];
+
+    var newState = state;
+    switch (action.type) {
+        case '@MainPage.MenuSelectChange':
+            newState = Object.assign({}, state);
+            return newState;
+    }
+    return state;
+};
+
+var defaultState = {
+    selectedPage: null,
+    sideBarMenu: [{ id: "home", icon: "home", value: "Home" }, { id: "client", icon: "user", value: "Client" }, { id: "dashboard", icon: "dashboard", value: "Dashboards", data: [{ id: "dashboard1", value: "Dashboard 1" }, { id: "dashboard2", value: "Dashboard 2" }] }, { id: "layouts", icon: "columns", value: "Layouts", data: [{ id: "accordions", value: "Accordions" }, { id: "portlets", value: "Portlets" }] }, { id: "tables", icon: "table", value: "Data Tables", data: [{ id: "tables1", value: "Datatable" }, { id: "tables2", value: "TreeTable" }, { id: "tables3", value: "Pivot" }] }]
+};
+
+/***/ }),
+/* 254 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(255);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(22)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!./toolbar.css", function() {
+			var newContent = require("!!../../../../../node_modules/css-loader/index.js!./toolbar.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 255 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(21)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".webix_icon_btn {\r\n  width : 32px;\r\n}\r\n", ""]);
 
 // exports
 

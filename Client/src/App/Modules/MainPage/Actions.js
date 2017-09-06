@@ -1,4 +1,4 @@
-export default function(action) {
+export function ActionUpdateToolbar(action) {
   return {
     type: '@App.UpdateToolBarLabel',
     payload: action
