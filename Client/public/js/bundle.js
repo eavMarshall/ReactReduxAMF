@@ -26757,7 +26757,7 @@ var SessionReducerDefaultState = {
   status: {
     Login: false
   },
-  auth: ['home', 'client', 'layouts']
+  auth: ['home', 'client', 'dashboard', 'dashboard1', 'layouts', 'portlets']
 };
 
 function SessionReducer() {

@@ -24,7 +24,7 @@ const SessionReducerDefaultState = {
   status: {
     Login: false
   },
-  auth:['home', 'client', 'layouts']
+  auth:['home', 'client', 'dashboard', 'dashboard1','layouts', 'portlets']
 }
 
 export function SessionReducer(state = SessionReducerDefaultState, action) {
