@@ -11,18 +11,34 @@ export default class ToolBar extends WRComponent {
     toolBarLabel.refresh();
   }
   getLayout() {
+    let menuBtn =
+    {
+      view: "button",
+      type: "icon",
+      icon: "bars",
+      width: 40,
+      align: "center",
+      css: "app_button",
+    };
+    if (null != this.props.onMenuOpen) menuBtn.click = this.props.onMenuOpen
+
+
+    let logoutBtn =
+    {
+      id: "logout",
+      view: "button",
+      type: "icon",
+      width: 45,
+      css: "app_button",
+      icon: "sign-out",
+      badge: 0,
+    };
+    if (null != this.props.logoutHandler) logoutBtn.click = this.props.logoutHandler
+
     return { view: "toolbar",
       css: "sidenavmain",
       elements: [
-        {
-          view: "button",
-          type: "icon",
-          icon: "bars",
-          width: 40,
-          align: "center",
-          css: "app_button",
-          click: this.props.onMenuOpen
-        },
+        menuBtn,
         {
           id: "toolBarLabel",
           view: "label",
@@ -31,16 +47,7 @@ export default class ToolBar extends WRComponent {
           height:"46",
         },
         {},
-        {
-          id: "logout",
-          view: "button",
-          type: "icon",
-          width: 45,
-          css: "app_button",
-          icon: "sign-out",
-          badge: 0,
-          click: this.props.logout,
-        }
+        logoutBtn
     ]};
   }
 }

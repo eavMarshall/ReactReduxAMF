@@ -7228,6 +7228,7 @@ var WRComponent = function (_Component) {
     }
 
     _this.rootClass = props.rootClass == null ? "fullScreen" : props.rootClass;
+    _this.innerstyle = props.innerstyle == null ? {} : props.innerstyle;
     return _this;
   }
 
@@ -7237,19 +7238,34 @@ var WRComponent = function (_Component) {
       this.adjust();this.windowsResize(event);
     }
   }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement('div', { ref: 'root', className: this.rootClass });
+    key: '_updateSyles',
+    value: function _updateSyles(props) {
+      if (null == props) props = this.props;
+      if (null != props.innerstyle) {
+        var container = _reactDom2.default.findDOMNode(this.refs.root);
+        var webixContainer = container.firstChild;
+        if (null != webixContainer) {
+          for (var key in props.innerstyle) {
+            webixContainer.style[key] = props.innerstyle[key];
+          }
+        }
+      }
     }
   }, {
     key: 'componentWillUpdate',
     value: function componentWillUpdate(props) {
+      this._updateSyles(props);
       this.setWebixData(props);
     }
   }, {
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate() {
       return true;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      if (null == this.props.innerstyle) return _react2.default.createElement('div', { ref: 'root', className: this.rootClass });else return _react2.default.createElement('div', { ref: 'root', className: this.rootClass, style: this.props.innerstyle });
     }
   }, {
     key: 'componentDidMount',
@@ -7261,6 +7277,7 @@ var WRComponent = function (_Component) {
       var layout = Object.assign({}, this.getLayout());
       layout.container = _reactDom2.default.findDOMNode(this.refs.root);
       this.ui = window.webix.ui(layout);
+      this._updateSyles();
       window.addEventListener('resize', this._windowsResize.bind(this));
       this.aftercomponentDidMount();
     }
@@ -25601,35 +25618,8 @@ var MainPage = function (_Component) {
   }
 
   _createClass(MainPage, [{
-    key: 'onMenuOpen',
-    value: function onMenuOpen() {
-      var menu = this.refs.sidenav.refs.root.firstChild;
-      if (menu.style.width == "0px") {
-        menu.style.width = "300px";
-        this.refs.sidenavmain.style.marginLeft = "300px";
-      } else {
-        menu.style.width = "0px";
-        this.refs.sidenavmain.style.marginLeft = "0px";
-      }
-
-      this.refs.ToolBar.adjust();
-    }
-  }, {
     key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.refs.sidenav.refs.root.firstChild.style.width = "0px";
-      this.refs.sidenavmain.style.marginLeft = "0px";
-    }
-  }, {
-    key: 'onMenuChange',
-    value: function onMenuChange(label) {
-      this.props.UpdateToolbar(label);
-    }
-  }, {
-    key: 'onlogout',
-    value: function onlogout() {
-      this.props.ActionLogin(false);
-    }
+    value: function componentDidMount() {}
   }, {
     key: 'getPage',
     value: function getPage() {
@@ -25692,6 +25682,16 @@ var MainPage = function (_Component) {
       return _react2.default.createElement('img', { id: 'loadingImage', className: 'fitLoadingImage centerLoadingImage loadingImageSpin', src: 'react.svg' });
     }
   }, {
+    key: 'menuToggleHandler',
+    value: function menuToggleHandler() {
+      this.props.ActionSideMenuOpen(!this.props.sideMenuOpen);this.refs.ToolBar.adjust();
+    }
+  }, {
+    key: 'toolbarLogoutHandler',
+    value: function toolbarLogoutHandler() {
+      this.props.ActionLogin(false);
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -25702,20 +25702,25 @@ var MainPage = function (_Component) {
           null,
           _react2.default.createElement(_SideMenu2.default, {
             ref: 'sidenav',
-            onMenuChange: this.onMenuChange.bind(this),
+            onMenuChange: this.props.UpdateToolbar.bind(this),
             label: this.props.appName,
-            sideBarMenu: this.props.sideBarMenu,
-            auth: this.props.auth
+            sideBarMenuItems: this.props.sideBarMenuItems,
+            auth: this.props.auth,
+            innerstyle: this.props.sideMenuOpen ? { width: '300px' } : { width: '0px' }
           })
         ),
         _react2.default.createElement(
           'div',
-          { ref: 'sidenavmain', className: 'fullScreen' },
+          {
+            ref: 'sidenavmain',
+            className: 'fullScreen',
+            style: this.props.sideMenuOpen ? { marginLeft: '300px' } : { marginLeft: '0px' }
+          },
           _react2.default.createElement(_ToolBar2.default, {
             ref: 'ToolBar',
-            onMenuOpen: this.onMenuOpen.bind(this),
+            onMenuOpen: this.menuToggleHandler.bind(this),
             toolBarLabel: this.props.toolBarLabel,
-            logout: this.onlogout.bind(this)
+            logoutHandler: this.toolbarLogoutHandler.bind(this)
           }),
           this.getPage()
         )
@@ -25729,7 +25734,8 @@ var MainPage = function (_Component) {
 function matchDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
     ActionLogin: _Actions2.default,
-    UpdateToolbar: actions.ActionUpdateToolbar
+    UpdateToolbar: actions.ActionUpdateToolbar,
+    ActionSideMenuOpen: actions.ActionSideMenuOpen
   }, dispatch);
 }
 
@@ -25740,7 +25746,8 @@ function mapStateToProps(state) {
     appName: state.App.info.appName,
     toolBarLabel: state.App.info.toolBarLabel.value,
     pageid: state.App.info.toolBarLabel.id,
-    sideBarMenu: state.MainPage.sideBarMenu
+    sideBarMenuItems: state.MainPage.sideBarMenuItems,
+    sideMenuOpen: state.MainPage.sideMenuOpen
   };
 }
 
@@ -25757,9 +25764,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ActionUpdateToolbar = ActionUpdateToolbar;
+exports.ActionSideMenuOpen = ActionSideMenuOpen;
 function ActionUpdateToolbar(action) {
   return {
     type: '@App.UpdateToolBarLabel',
+    payload: action
+  };
+}
+
+function ActionSideMenuOpen(action) {
+  return {
+    type: '@MainPage.SideMenuOpen',
     payload: action
   };
 }
@@ -25802,7 +25817,7 @@ var SideMenuPage = function (_WRComponent) {
 
     var _this = _possibleConstructorReturn(this, (SideMenuPage.__proto__ || Object.getPrototypeOf(SideMenuPage)).call(this, props));
 
-    var sideBarMenu = null == props.sideBarMenu ? [{ id: "home", icon: "home", value: "Home" }, { id: "dashboard", icon: "dashboard", value: "Dashboards", data: [{ id: "dashboard1", value: "Dashboard 1" }, { id: "dashboard2", value: "Dashboard 2" }] }, { id: "layouts", icon: "columns", value: "Layouts", data: [{ id: "accordions", value: "Accordions" }, { id: "portlets", value: "Portlets" }] }, { id: "tables", icon: "table", value: "Data Tables", data: [{ id: "tables1", value: "Datatable" }, { id: "tables2", value: "TreeTable" }, { id: "tables3", value: "Pivot" }] }] : props.sideBarMenu;
+    var sideBarMenu = null == props.sideBarMenuItems ? [{ id: "home", icon: "home", value: "Home" }, { id: "dashboard", icon: "dashboard", value: "Dashboards", data: [{ id: "dashboard1", value: "Dashboard 1" }, { id: "dashboard2", value: "Dashboard 2" }] }, { id: "layouts", icon: "columns", value: "Layouts", data: [{ id: "accordions", value: "Accordions" }, { id: "portlets", value: "Portlets" }] }, { id: "tables", icon: "table", value: "Data Tables", data: [{ id: "tables1", value: "Datatable" }, { id: "tables2", value: "TreeTable" }, { id: "tables3", value: "Pivot" }] }] : props.sideBarMenuItems;
 
     _this.sideBarMenu = [];
     for (var i = 0; i < sideBarMenu.length; i++) {
@@ -26318,32 +26333,36 @@ var ToolBar = function (_WRComponent) {
   }, {
     key: 'getLayout',
     value: function getLayout() {
+      var menuBtn = {
+        view: "button",
+        type: "icon",
+        icon: "bars",
+        width: 40,
+        align: "center",
+        css: "app_button"
+      };
+      if (null != this.props.onMenuOpen) menuBtn.click = this.props.onMenuOpen;
+
+      var logoutBtn = {
+        id: "logout",
+        view: "button",
+        type: "icon",
+        width: 45,
+        css: "app_button",
+        icon: "sign-out",
+        badge: 0
+      };
+      if (null != this.props.logoutHandler) logoutBtn.click = this.props.logoutHandler;
+
       return { view: "toolbar",
         css: "sidenavmain",
-        elements: [{
-          view: "button",
-          type: "icon",
-          icon: "bars",
-          width: 40,
-          align: "center",
-          css: "app_button",
-          click: this.props.onMenuOpen
-        }, {
+        elements: [menuBtn, {
           id: "toolBarLabel",
           view: "label",
           css: "toolBarHeight",
           label: this.props.toolBarLabel == null ? "" : this.props.toolBarLabel,
           height: "46"
-        }, {}, {
-          id: "logout",
-          view: "button",
-          type: "icon",
-          width: 45,
-          css: "app_button",
-          icon: "sign-out",
-          badge: 0,
-          click: this.props.logout
-        }] };
+        }, {}, logoutBtn] };
     }
   }]);
 
@@ -26793,14 +26812,20 @@ exports.default = function () {
     switch (action.type) {
         case '@MainPage.MenuSelectChange':
             newState = Object.assign({}, state);
+            newState.sideBarMenuItems = action.payload;
+            return newState;
+        case '@MainPage.SideMenuOpen':
+            newState = Object.assign({}, state);
+            newState.sideMenuOpen = action.payload;
             return newState;
     }
     return state;
 };
 
 var defaultState = {
+    sideMenuOpen: false,
     selectedPage: null,
-    sideBarMenu: [{ id: "home", icon: "home", value: "Home" }, { id: "client", icon: "user", value: "Client" }, { id: "dashboard", icon: "dashboard", value: "Dashboards", data: [{ id: "dashboard1", value: "Dashboard 1" }, { id: "dashboard2", value: "Dashboard 2" }] }, { id: "layouts", icon: "columns", value: "Layouts", data: [{ id: "accordions", value: "Accordions" }, { id: "portlets", value: "Portlets" }] }, { id: "tables", icon: "table", value: "Data Tables", data: [{ id: "tables1", value: "Datatable" }, { id: "tables2", value: "TreeTable" }, { id: "tables3", value: "Pivot" }] }]
+    sideBarMenuItems: [{ id: "home", icon: "home", value: "Home" }, { id: "client", icon: "user", value: "Client" }, { id: "dashboard", icon: "dashboard", value: "Dashboards", data: [{ id: "dashboard1", value: "Dashboard 1" }, { id: "dashboard2", value: "Dashboard 2" }] }, { id: "layouts", icon: "columns", value: "Layouts", data: [{ id: "accordions", value: "Accordions" }, { id: "portlets", value: "Portlets" }] }, { id: "tables", icon: "table", value: "Data Tables", data: [{ id: "tables1", value: "Datatable" }, { id: "tables2", value: "TreeTable" }, { id: "tables3", value: "Pivot" }] }]
 };
 
 /***/ }),

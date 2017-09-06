@@ -1,6 +1,7 @@
 const defaultState = {
+  sideMenuOpen: false,
   selectedPage: null,
-  sideBarMenu: [
+  sideBarMenuItems: [
       { id: "home", icon: "home", value: "Home"},
       { id: "client", icon: "user", value: "Client"},
       { id: "dashboard", icon: "dashboard", value: "Dashboards",  data:[
@@ -24,6 +25,11 @@ export default function(state = defaultState, action) {
   switch (action.type) {
     case '@MainPage.MenuSelectChange':
       newState = Object.assign({}, state);
+      newState.sideBarMenuItems = action.payload;
+      return newState;
+    case '@MainPage.SideMenuOpen':
+      newState = Object.assign({}, state);
+      newState.sideMenuOpen = action.payload;
       return newState;
   }
   return state;

@@ -4,3 +4,10 @@ export function ActionUpdateToolbar(action) {
     payload: action
   };
 }
+
+export function ActionSideMenuOpen(action) {
+  return {
+    type: '@MainPage.SideMenuOpen',
+    payload: action
+  };
+}

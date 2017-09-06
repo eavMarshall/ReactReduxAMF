@@ -15,12 +15,33 @@ export default class WRComponent extends Component {
     }
 
     this.rootClass = props.rootClass == null ? "fullScreen" : props.rootClass;
+    this.innerstyle = props.innerstyle == null ? {} : props.innerstyle;
   }
 
   _windowsResize(event) { this.adjust(); this.windowsResize(event); }
-  render() { return (<div ref="root" className={this.rootClass}></div>); }
-  componentWillUpdate(props) { this.setWebixData(props); }
+  _updateSyles(props) {
+    if (null == props) props = this.props;
+    if (null != props.innerstyle) {
+      let container = ReactDOM.findDOMNode(this.refs.root);
+      let webixContainer = container.firstChild;
+      if (null != webixContainer) {
+        for(var key in props.innerstyle) {
+          webixContainer.style[key] = props.innerstyle[key];
+        }
+      }
+    }
+  }
+  componentWillUpdate(props) {
+    this._updateSyles(props);
+    this.setWebixData(props);
+  }
   shouldComponentUpdate() { return true; }
+  render() {
+    if (null == this.props.innerstyle)
+      return (<div ref="root" className={this.rootClass}/>);
+    else
+      return (<div ref="root" className={this.rootClass} style={this.props.innerstyle} />);
+  }
 
   componentDidMount() {
     if (null != this.ui) {
@@ -30,6 +51,7 @@ export default class WRComponent extends Component {
     let layout = Object.assign({}, this.getLayout());
     layout.container = ReactDOM.findDOMNode(this.refs.root);
     this.ui = window.webix.ui(layout);
+    this._updateSyles();
     window.addEventListener('resize', this._windowsResize.bind(this));
     this.aftercomponentDidMount();
   }

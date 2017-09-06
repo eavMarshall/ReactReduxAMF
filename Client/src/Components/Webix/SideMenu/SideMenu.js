@@ -6,7 +6,7 @@ require("./SideMenu.css");
 class SideMenuPage extends WRComponent {
   constructor(props) {
     super(props);
-    var sideBarMenu = (null == props.sideBarMenu) ? [
+    var sideBarMenu = (null == props.sideBarMenuItems) ? [
         { id: "home",icon: "home", value: "Home"},
         {id: "dashboard", icon: "dashboard", value: "Dashboards",  data:[
             { id: "dashboard1", value: "Dashboard 1"},
@@ -21,7 +21,7 @@ class SideMenuPage extends WRComponent {
             { id: "tables2", value: "TreeTable"},
             { id: "tables3", value: "Pivot"}
         ]}
-    ] : props.sideBarMenu;
+    ] : props.sideBarMenuItems;
 
     this.sideBarMenu = [];
     for (var i = 0; i < sideBarMenu.length; i++) {
@@ -37,8 +37,6 @@ class SideMenuPage extends WRComponent {
         }
       }
     }
-
-
 
     this.firstSelectedID = (null != props.firstSelectedID) ? props.firstSelectedID : "home";
     this.minWidth = (null != props.minWidth) ? props.minWidth : 1000;
