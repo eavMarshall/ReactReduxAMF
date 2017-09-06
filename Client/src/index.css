@@ -1,18 +1,10 @@
-html, body {
+body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  width: 100%;
   font-family: sans-serif;
 }
 
-.fullScreen {
-  margin: 0;
-  height: 100%;
-  width: 100%;
-}
-
-.data-reactroot {
-  height: 100%;
-  width: 100%;
+html, body, .fullScreen, #root, [data-reactroot] {
+    margin: 0;
+    height: 100%!important;
 }

@@ -1,6 +1,7 @@
-import WRComponent from '../WRComponent.js';
+import WRComponent from '../../WRComponent.js';
 import './sidebar.js';
 require("./sidebar.css");
+require("./SideMenu.css");
 
 class SideMenuPage extends WRComponent {
   constructor(props) {
@@ -44,12 +45,12 @@ class SideMenuPage extends WRComponent {
       if (null != this.sideBarMenu[i]["data"]) {
         for (var j = 0; j < this.sideBarMenu[i].data.length; j++) {
           if (id == this.sideBarMenu[i].data[j].id) {
-            return this.sideBarMenu[i].data[j].value;
+            return this.sideBarMenu[i].data[j];
           }
         }
       } else {
         if (id == this.sideBarMenu[i].id) {
-          return this.sideBarMenu[i].value;
+          return this.sideBarMenu[i];
         }
       }
     }
@@ -82,7 +83,7 @@ class SideMenuPage extends WRComponent {
       rows:[
         {
           view:"label",
-          label: "App Name",
+          label: this.props.label,
           align:"center",
           height: 54
         },

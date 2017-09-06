@@ -1,15 +1,10 @@
-import WRComponent from '../WRComponent.js';
+import WRComponent from '../../WRComponent.js';
 
 export default class ToolBar extends WRComponent {
-  constructor(props) {
-    super(props);
-    this.onMenuOpen = props.onMenuOpen;
-    this.toolBarLabel = (null == props.toolBarLabel) ? "" : props.toolBarLabel;
-  }
-  setWebixData(data) {
-    console.log(data);
-    $$("toolBarLabel").define({ label:data.toolBarLabel });
-    $$("toolBarLabel").refresh();
+  setWebixData(state) {
+    let toolBarLabel = $$("toolBarLabel");
+    toolBarLabel.define({ label : state.toolBarLabel });
+    toolBarLabel.refresh();
   }
   getLayout() {
     return { view: "toolbar",
@@ -21,13 +16,13 @@ export default class ToolBar extends WRComponent {
           icon: "bars",
           width: 37,
           align: "left",
-          css: "app_button",
-          click: this.onMenuOpen
+          //css: "app_button",
+          click: this.props.onMenuOpen
         },
         {
           id: "toolBarLabel",
           view: "label",
-          label: this.toolBarLabel,
+          label: this.props.toolBarLabel,
           height:"46",
         },
         {},
@@ -39,7 +34,7 @@ export default class ToolBar extends WRComponent {
           css: "app_button",
           icon: "sign-out",
           badge: 0,
-          //click: this.logout.bind(this),
+          click: this.props.logout,
         }
     ]};
   }
