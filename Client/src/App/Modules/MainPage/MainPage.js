@@ -7,11 +7,13 @@ import SideMenu from '../../../Components/Webix/SideMenu/SideMenu.js';
 import ToolBar from '../../../Components/Webix/ToolBar/ToolBar.js';
 import './MainPage.css';
 
+import HomePage from './HomePage/HomePage.js'
+
 class MainPage extends Component {
   componentDidMount() { }
   getPage() {
     switch(this.props.pageid) {
-      case 'home': return <div>Home - this is a child div</div>;
+      case 'home': return <HomePage/>;
       case 'client': return <div>Client - this is a child div</div>;
       case 'dashboard1': return <div>Dashboards 1 - this is a child div</div>;
       case 'dashboard2': return <div>Dashboards 2 - this is a child div</div>;

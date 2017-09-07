@@ -13,4 +13,4 @@ This is a template for future references. Requires knowledge of npm, webpack, ba
 
 This is a react-redux app, with the webix library and an amf library added from https://github.com/emilkm/amfjs
 
-This project is transpiled by Webpack
+This project is transpiled with Webpack

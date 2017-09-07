@@ -11891,6 +11891,7 @@ __webpack_require__(253);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var store = (0, _redux.createStore)(_AllReducers2.default);
+window.store = store;
 _reactDom2.default.render(_react2.default.createElement(
   _reactRedux.Provider,
   { store: store },
@@ -25598,6 +25599,10 @@ var _ToolBar2 = _interopRequireDefault(_ToolBar);
 
 __webpack_require__(244);
 
+var _HomePage = __webpack_require__(257);
+
+var _HomePage2 = _interopRequireDefault(_HomePage);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -25625,11 +25630,7 @@ var MainPage = function (_Component) {
     value: function getPage() {
       switch (this.props.pageid) {
         case 'home':
-          return _react2.default.createElement(
-            'div',
-            null,
-            'Home - this is a child div'
-          );
+          return _react2.default.createElement(_HomePage2.default, null);
         case 'client':
           return _react2.default.createElement(
             'div',
@@ -26486,11 +26487,17 @@ var _Actions = __webpack_require__(101);
 
 var _Actions2 = _interopRequireDefault(_Actions);
 
+var _Actions3 = __webpack_require__(255);
+
+var actions = _interopRequireWildcard(_Actions3);
+
 var _WRComponent2 = __webpack_require__(57);
 
 var _WRComponent3 = _interopRequireDefault(_WRComponent2);
 
 __webpack_require__(247);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26511,11 +26518,38 @@ var LoginPage = function (_WRComponent) {
 
   _createClass(LoginPage, [{
     key: 'setWebixData',
-    value: function setWebixData(data) {}
+    value: function setWebixData(props) {
+      if (!props.IsLoggingIn) {
+        $$("LoginPageLoginButton").enable();
+        $$("LoginPageMainForm").hideProgress();
+      } else {
+        $$("LoginPageLoginButton").disable();
+        $$("LoginPageMainForm").showProgress({
+          type: "icon"
+        });
+
+        //login here, replace with ajax request
+        setTimeout(function () {
+          //wipe username and password
+          this.props.UpdateLoginDetails({ username: "", password: "" });
+          this.props.setIsLoggingIn(false);
+          this.props.ActionLogin(true);
+        }.bind(this), 2000);
+      }
+    }
   }, {
     key: 'loginHandler',
     value: function loginHandler() {
-      this.props.ActionLogin(true);
+      this.props.UpdateLoginDetails({
+        username: $$("LoginPageUsername").getValue(),
+        password: $$("LoginPagePassword").getValue()
+      });
+      this.props.setIsLoggingIn(true);
+    }
+  }, {
+    key: 'aftercomponentDidMount',
+    value: function aftercomponentDidMount() {
+      webix.extend($$("LoginPageMainForm"), webix.ProgressBar);
     }
   }, {
     key: 'getLayout',
@@ -26527,7 +26561,7 @@ var LoginPage = function (_WRComponent) {
             id: "LoginPageMainForm",
             testing: "this is a test",
             width: 300,
-            elements: [{ view: "label", label: "Your Welcome message here", margin: 5, align: "center" }, { id: "LoginPageUsername", view: "text", label: "Username", name: "username" }, { id: "LoginPagePassword", view: "text", type: "password", label: "Password", name: "password" }, { id: "LoginPageLoginButton", view: "button", value: "Login", width: 100, "click": this.loginHandler.bind(this) }]
+            elements: [{ view: "label", label: "Your Welcome message here", margin: 5, align: "center" }, { id: "LoginPageUsername", view: "text", label: "Username", name: "username" }, { id: "LoginPagePassword", view: "text", type: "password", label: "Password", name: "password" }, { id: "LoginPageLoginButton", view: "button", value: "Login", width: 100, "click": this.loginHandler.bind(this), "enable": !this.props.IsLoggingIn }]
           }, {}]
         }, {}]
       };
@@ -26538,12 +26572,17 @@ var LoginPage = function (_WRComponent) {
 }(_WRComponent3.default);
 
 function matchDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ ActionLogin: _Actions2.default }, dispatch);
+  return (0, _redux.bindActionCreators)({
+    ActionLogin: _Actions2.default,
+    UpdateLoginDetails: actions.UpdateLoginDetails,
+    setIsLoggingIn: actions.setIsLoggingIn
+  }, dispatch);
 }
 
 function mapStateToProps(state) {
   return {
-    LoginStatus: state.Session.status.Login
+    LoginStatus: state.Session.status.Login,
+    IsLoggingIn: state.LoginPage.IsLoggingIn
   };
 }
 
@@ -26719,9 +26758,17 @@ var _Reducer = __webpack_require__(251);
 
 var App = _interopRequireWildcard(_Reducer);
 
-var _Reducer2 = __webpack_require__(252);
+var _Reducer2 = __webpack_require__(256);
 
 var _Reducer3 = _interopRequireDefault(_Reducer2);
+
+var _Reducer4 = __webpack_require__(252);
+
+var _Reducer5 = _interopRequireDefault(_Reducer4);
+
+var _Reducer6 = __webpack_require__(260);
+
+var _Reducer7 = _interopRequireDefault(_Reducer6);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26730,7 +26777,9 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var AllReducers = (0, _redux.combineReducers)({
   Session: App.SessionReducer,
   App: App.AppReducer,
-  MainPage: _Reducer3.default
+  LoginPage: _Reducer3.default,
+  MainPage: _Reducer5.default,
+  HomePage: _Reducer7.default
 });
 
 exports.default = AllReducers;
@@ -26872,6 +26921,248 @@ exports.push([module.i, "body {\r\n  margin: 0;\r\n  padding: 0;\r\n  font-famil
 
 // exports
 
+
+/***/ }),
+/* 255 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.UpdateLoginDetails = UpdateLoginDetails;
+exports.setIsLoggingIn = setIsLoggingIn;
+function UpdateLoginDetails(action) {
+  return {
+    type: '@LoginPage.UpdateLoginDetails',
+    payload: action
+  };
+}
+
+function setIsLoggingIn(action) {
+  return {
+    type: '@LoginPage.setIsLoggingIn',
+    payload: action
+  };
+}
+
+/***/ }),
+/* 256 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultState;
+  var action = arguments[1];
+
+  var newState = state;
+  switch (action.type) {
+    case '@LoginPage.UpdateLoginDetails':
+      newState = Object.assign({}, state);
+      newState.LoginDetails = action.payload;
+      return newState;
+    case '@LoginPage.setIsLoggingIn':
+      newState = Object.assign({}, state);
+      newState.IsLoggingIn = action.payload;
+      return newState;
+  }
+  return state;
+};
+
+var defaultState = {
+  LoginDetails: {
+    username: "",
+    password: ""
+  },
+  IsLoggingIn: false
+};
+
+/***/ }),
+/* 257 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(14);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(36);
+
+var _redux = __webpack_require__(27);
+
+var _Actions = __webpack_require__(261);
+
+var actions = _interopRequireWildcard(_Actions);
+
+__webpack_require__(258);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var HomePage = function (_Component) {
+  _inherits(HomePage, _Component);
+
+  function HomePage() {
+    _classCallCheck(this, HomePage);
+
+    return _possibleConstructorReturn(this, (HomePage.__proto__ || Object.getPrototypeOf(HomePage)).apply(this, arguments));
+  }
+
+  _createClass(HomePage, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        'Home - this is a child div'
+      );
+    }
+  }]);
+
+  return HomePage;
+}(_react.Component);
+
+exports.default = HomePage;
+/*
+function matchDispatchToProps(dispatch) {
+  return bindActionCreators({
+      ActionLogin : ActionLogin,
+      UpdateToolbar : actions.ActionUpdateToolbar,
+      ActionSideMenuOpen: actions.ActionSideMenuOpen
+  }, dispatch);
+}
+
+function mapStateToProps(state) {
+  return {
+    LoginStatus: state.Session.status.Login,
+    auth: state.Session.auth,
+    appName: state.App.info.appName,
+    toolBarLabel: state.App.info.toolBarLabel.value,
+    pageid: state.App.info.toolBarLabel.id,
+    sideBarMenuItems: state.MainPage.sideBarMenuItems,
+    sideMenuOpen: state.MainPage.sideMenuOpen
+  };
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(MainPage);
+*/
+
+/***/ }),
+/* 258 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(259);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(18)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!./HomePage.css", function() {
+			var newContent = require("!!../../../../../node_modules/css-loader/index.js!./HomePage.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 259 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(17)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/***/ }),
+/* 260 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultState;
+  var action = arguments[1];
+
+  var newState = state;
+  /*switch (action.type) {
+    case '@HomePage.xxx':
+      newState = Object.assign({}, state);
+      newState.sideBarMenuItems = action.payload;
+      return newState;
+    case '@HomePage.xxx':
+      newState = Object.assign({}, state);
+      newState.sideMenuOpen = action.payload;
+      return newState;
+  }*/
+  return state;
+};
+
+var defaultState = {};
+
+/***/ }),
+/* 261 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ActionDoSomething = ActionDoSomething;
+function ActionDoSomething(action) {
+  return {
+    type: '@HomePage.xxx',
+    payload: action
+  };
+}
 
 /***/ })
 /******/ ]);

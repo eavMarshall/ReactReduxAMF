@@ -7,7 +7,8 @@ import registerServiceWorker from './registerServiceWorker';
 import AllReducers from './AllReducers';
 import './index.css';
 
-let store = createStore(AllReducers)
+let store = createStore(AllReducers);
+window.store = store;
 ReactDOM.render(
   <Provider store={store}>
     <App />
