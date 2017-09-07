@@ -1,0 +1,80 @@
+
+.toolBarContainer {
+  display: grid;
+  grid-template-columns: 56px 1fr 1fr;
+}
+
+.toolbar {
+    height:56px;
+    width:100%;
+    background-color: #2196F3;
+}
+
+.menuButton {
+    display:table;
+    background-color: #2196F3;
+    border: none;
+    color: white;
+    padding: 5px;
+    margin-left: 7.5px;
+    margin-top: 7.5px;
+    height:26px;
+    width:26px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 50%;
+}
+
+div .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+}
+
+.menuButton:hover {
+    background-color: #0288D1;
+}
+
+.menuButton:hover div .tooltiptext {
+    visibility: visible;
+}
+
+.toolBarLabel {
+  display:table;
+  height: 100%;
+  width: 100%;
+  text-align: left;
+}
+
+.toolBarLabelText {
+  display: table-cell;
+  vertical-align: middle;
+  font-weight: bold;
+  color: white;
+}
+
+.sidenav {
+    width: 300px;
+    height: 100%!important;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: white;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.sidenavmain {
+    margin-Left : 300px;
+    border-width: 0px!important;
+  	width:100%!important;
+    transition: 0.5s;
+}

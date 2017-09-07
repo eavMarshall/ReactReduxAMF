@@ -1,0 +1,64 @@
+div.accordion {
+  background-color: white;
+  color: rgba(0, 0, 0, 0.54);
+  cursor: pointer;
+  height: 48px;
+  width: 100%;
+  border: none;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+  color: rgba(0, 0, 0, 0.87);
+  border-style: solid;
+  border-top-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-bottom-width: 2px;
+  border-color: rgba(0,0,0,0.04);
+}
+
+div.accordion:hover {
+  background-color: rgba(0,0,0,0.04);
+}
+
+div.accordion:after {
+  font-family: 'FontAwesome';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  align-items: center;
+  content: "\f104";
+  opacity: .54;
+  float: right;
+  color: inherit;
+}
+
+div.accordion.active:after {
+  font-family: 'FontAwesome';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  align-items: center;
+  letter-spacing: normal;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  display: inline-block;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  content: "\f107";
+  background-color: white;
+  color: #2196F3;
+}
+
+div.panel {
+    padding: 0 0;
+    background-color: white;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}

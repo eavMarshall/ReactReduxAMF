@@ -1,0 +1,28 @@
+.singleMenuItemContainer {
+  background-color: white;
+  height: 48px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  color: rgba(0,0,0,0.87);
+  border-style: solid;
+  border-top-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  border-bottom-width: 2px;
+  border-color: rgba(0,0,0,0.04);
+}
+
+.singleMenuLabel {
+  color: inherit;
+  width: 75%;
+}
+
+.singleMenuItemContainer.active {
+  background-color: #2196F3;
+  color: white;
+}
+
+.singleMenuItemContainer:hover:not(.active) {
+  background-color: rgba(0,0,0,0.04);
+}

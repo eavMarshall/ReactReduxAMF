@@ -1,0 +1,28 @@
+.menuItemContainer {
+  background-color: white;
+  height: 48px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.menuItemChildren {
+  vertical-align:middle;
+}
+
+.menuLabel {
+  vertical-align: middle;
+  text-align: left;
+  margin-left: 64px;
+  color: inherit;
+}
+
+.menuItemContainer.active {
+  background-color: #2196F3;
+  color: white;
+}
+
+.menuItemContainer:hover:not(.active) {
+  background-color: rgba(0,0,0,0.04);
+}

@@ -1,6 +1,8 @@
+import React, { Component } from 'react';
+
 const defaultState = {
   sideMenuOpen: false,
-  selectedPage: null,
+  selectedPage: <img id="loadingImage" className="fitLoadingImage centerLoadingImage loadingImageSpin" src="react.svg"></img>,
   sideBarMenuItems: [
       { id: "home", icon: "home", value: "Home"},
       { id: "client", icon: "user", value: "Client"},
