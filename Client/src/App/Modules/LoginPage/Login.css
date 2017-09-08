@@ -7,14 +7,27 @@
 
 @media screen and (min-width: 540px) and (max-width: 780px) {
   .loginpageform {
-    margin: 20%;
+    margin-top: 10%;
+    margin-left: 20%;
+    margin-right: 20%;
     padding: 5%
   }
 }
 
-@media screen and (min-width: 781px) {
+@media screen and (min-width: 780px) and (max-width: 1024px) {
   .loginpageform {
-    margin: 30%;
+    margin-top: 15%;
+    margin-left: 25%;
+    margin-right: 25%;
+    padding: 5%
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .loginpageform {
+    margin-top: 15%;
+    margin-left: 30%;
+    margin-right: 30%;
     padding: 5%
   }
 }

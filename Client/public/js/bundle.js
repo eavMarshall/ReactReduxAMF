@@ -27719,7 +27719,7 @@ exports = module.exports = __webpack_require__(13)(undefined);
 
 
 // module
-exports.push([module.i, "@media screen and (max-width: 540px) {\r\n  .loginpageform {\r\n    margin: 10%;\r\n    padding: 5%\r\n  }\r\n}\r\n\r\n@media screen and (min-width: 540px) and (max-width: 780px) {\r\n  .loginpageform {\r\n    margin: 20%;\r\n    padding: 5%\r\n  }\r\n}\r\n\r\n@media screen and (min-width: 781px) {\r\n  .loginpageform {\r\n    margin: 30%;\r\n    padding: 5%\r\n  }\r\n}\r\n\r\n.loginpageform {\r\n  border-style: solid;\r\n  border-width: thin;\r\n}\r\n", ""]);
+exports.push([module.i, "@media screen and (max-width: 540px) {\r\n  .loginpageform {\r\n    margin: 10%;\r\n    padding: 5%\r\n  }\r\n}\r\n\r\n@media screen and (min-width: 540px) and (max-width: 780px) {\r\n  .loginpageform {\r\n    margin-top: 10%;\r\n    margin-left: 20%;\r\n    margin-right: 20%;\r\n    padding: 5%\r\n  }\r\n}\r\n\r\n@media screen and (min-width: 780px) and (max-width: 1024px) {\r\n  .loginpageform {\r\n    margin-top: 15%;\r\n    margin-left: 25%;\r\n    margin-right: 25%;\r\n    padding: 5%\r\n  }\r\n}\r\n\r\n@media screen and (min-width: 1025px) {\r\n  .loginpageform {\r\n    margin-top: 15%;\r\n    margin-left: 30%;\r\n    margin-right: 30%;\r\n    padding: 5%\r\n  }\r\n}\r\n\r\n.loginpageform {\r\n  border-style: solid;\r\n  border-width: thin;\r\n}\r\n", ""]);
 
 // exports
 
