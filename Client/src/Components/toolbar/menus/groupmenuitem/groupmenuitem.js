@@ -31,7 +31,7 @@ class GroupMenuItem extends Component {
       <div>
         <div ref="groupitem" className="accordion"
             onClick={this.toggleShowChildren.bind(this)}>
-          <span className={"webix_icon " + this.props.icon}></span>
+          <i className="material-icons">{this.props.icon}</i>
           <span className="singleMenuLabel">{this.props.label}</span>
         </div>
         <div ref="panel" className="panel">

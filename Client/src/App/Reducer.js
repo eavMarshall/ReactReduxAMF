@@ -28,7 +28,8 @@ const AppReducerDefaultState = {
         'setting3': <div label="Setting 3">Setting 3 - this is a child div</div>,
         'setting4': <div label="Setting 4">Setting 4 - this is a child div</div>,
       }
-  }
+  },
+  sideMenuOpen: true
 }
 
 export function AppReducer(state = AppReducerDefaultState, action) {
@@ -47,6 +48,18 @@ export function AppReducer(state = AppReducerDefaultState, action) {
       }
 
       newState.Pages.selectedPageID = action.payload;
+      let pageWidth = window.innerWidth
+        || document.documentElement.clientWidth
+        || document.body.clientWidth;
+
+      if (pageWidth < 700) {
+        newState.sideMenuOpen = false;
+      }
+
+      return newState;
+    case '@App.SideMenuOpen':
+      newState = Object.assign({}, state);
+      newState.sideMenuOpen = action.payload;
       return newState;
   }
   return state;

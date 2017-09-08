@@ -7,7 +7,7 @@ class SideBarMenu extends Component {
     return (
       <div className="sidebarmenuContainer">
         <div className="sideMenuTitle">
-          <div className="sideMenuLabel">
+          <div className="sideMenuLabel" onClick={this.props.onMenuClick}>
             <span className="sideMenuLabelText">{this.props.appName}</span>
           </div>
         </div>

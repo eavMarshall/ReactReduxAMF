@@ -11,7 +11,8 @@ export default function(state = defaultState, action) {
   switch (action.type) {
     case '@LoginPage.UpdateLoginDetails':
       newState = Object.assign({}, state);
-      newState.LoginDetails = action.payload;
+      if (null != action.payload.username) newState.LoginDetails.username = action.payload.username;
+      if (null != action.payload.password) newState.LoginDetails.password = action.payload.password;
       return newState;
     case '@LoginPage.setIsLoggingIn':
       newState = Object.assign({}, state);

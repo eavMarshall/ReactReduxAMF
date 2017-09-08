@@ -15,28 +15,13 @@
     background-color: #2196F3;
     border: none;
     color: white;
-    padding: 5px;
-    margin-left: 7.5px;
-    margin-top: 7.5px;
-    height:26px;
-    width:26px;
+    width:20px;
     text-align: center;
     align-items: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 24px;
     border-radius: 50%;
-}
-
-div .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
 }
 
 .menuButton:hover {
@@ -51,6 +36,8 @@ div .tooltiptext {
   display:table;
   height: 100%;
   width: 100%;
+  padding-left: 8px;
+  font-size: 16px;
   text-align: left;
 }
 

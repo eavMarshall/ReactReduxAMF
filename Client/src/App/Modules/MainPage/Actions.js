@@ -1,6 +1,6 @@
 export function ActionSideMenuOpen(action) {
   return {
-    type: '@MainPage.SideMenuOpen',
+    type: '@App.SideMenuOpen',
     payload: action
   };
 }

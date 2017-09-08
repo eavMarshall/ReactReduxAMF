@@ -4,11 +4,38 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import Login from '../../Actions.js';
 import * as actions from './Actions.js';
-import WRComponent from '../../../Components/Webix/WRComponent.js';
+import Button  from 'muicss/lib/react/button';
+import Input from 'muicss/lib/react/input';
+
 import './Login.css';
 
-class LoginPage extends WRComponent {
-  setWebixData(props) {
+class LoginPage extends Component {
+  loginHandler() {
+    this.props.setIsLoggingIn(true);
+    setTimeout(function() {
+      //wipe password
+      this.props.UpdateLoginDetails({ username: this.props.username, password: ""});
+      this.props.setIsLoggingIn(false);
+      this.props.ActionLogin(true);
+    }.bind(this), 2000);
+  }
+  handleChange(event) {
+    switch(event.target.id) {
+      case "username": this.props.UpdateLoginDetails({ username: event.target.value }); break;
+      case "password": this.props.UpdateLoginDetails({ password: event.target.value }); break;
+    }
+  }
+  render() {
+    return (
+      <div className="loginpageform">
+        <div className="mui--text-headline">Welcome message here</div>
+        <Input id="username" hint="Username" onChange={this.handleChange.bind(this)} disabled={this.props.IsLoggingIn}/>
+        <Input id="password" hint="Password" onChange={this.handleChange.bind(this)} disabled={this.props.IsLoggingIn}/>
+        <Button color="primary" onClick={this.loginHandler.bind(this)} disabled={this.props.IsLoggingIn}>Login</Button>
+      </div>
+    );
+  }
+/*  setWebixData(props) {
     $$("LoginPageUsername").setValue(this.props.username);
     $$("LoginPageUsername").refresh();
 
@@ -35,13 +62,7 @@ class LoginPage extends WRComponent {
     }
 
   }
-  loginHandler() {
-    this.props.UpdateLoginDetails({
-      username: $$("LoginPageUsername").getValue(),
-      password: $$("LoginPagePassword").getValue()
-    });
-    this.props.setIsLoggingIn(true);
-  }
+
   aftercomponentDidMount() {
     webix.extend($$("LoginPageMainForm"), webix.ProgressBar);
   }
@@ -70,7 +91,7 @@ class LoginPage extends WRComponent {
         {},
       ]
     };
-  }
+  }*/
 }
 
 function matchDispatchToProps(dispatch) {

@@ -7,7 +7,7 @@ class SingleMenuItem extends SelectableMenu {
   render() {
     return (
       <div ref="root" className="singleMenuItemContainer" onClick={this.changeSelectedMenuID.bind(this)}>
-        <span className={"webix_icon " + this.props.icon}></span>
+        <i className="material-icons">{this.props.icon}</i>
         <span className="singleMenuLabel">{this.props.label}</span>
       </div>
     );

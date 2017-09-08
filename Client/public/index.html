@@ -28,7 +28,6 @@
       @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
     </style>
     <title>React App</title>
-  	<link rel="stylesheet" type="text/css" href="https://cdn.webix.com/4.4/webix.css">
   </head>
   <body>
     <img id="loadingImage" class="fitLoadingImage centerLoadingImage loadingImageSpin" src="react.svg"></img>
@@ -36,20 +35,17 @@
       <div style="text-align: center; vertical-align: middle;">You need to enable JavaScript to run this app.</div>
     </noscript>
     <div id="root" class="fullScreen"></div>
-    <script src="https://cdn.webix.com/4.4/webix.js"
-      integrity="sha384-7p1suaspdugq4bU58/paFcK+hC3lTuRopTGiPa9+L8qL1oQ977BSwKvN8K8ukhYG" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="//cdn.muicss.com/mui-0.9.25/css/mui.min.css" rel="stylesheet" type="text/css" />
+    <script src="//cdn.muicss.com/mui-0.9.25/js/mui.min.js"></script>
     <script>
-      if (!window.webix) {
-        alert('Fail to load the webix library');
-      } else {
-        let script = document.createElement("script");
-        script.setAttribute("src","./js/bundle.js");
-        document.body.appendChild(script);
-        script.addEventListener('load', function() {
-          let loadingImage = document.getElementById("loadingImage");
-          loadingImage.parentNode.removeChild(loadingImage);
-        });
-      }
+      let script = document.createElement("script");
+      script.setAttribute("src","./js/bundle.js");
+      document.body.appendChild(script);
+      script.addEventListener('load', function() {
+        let loadingImage = document.getElementById("loadingImage");
+        loadingImage.parentNode.removeChild(loadingImage);
+      });
     </script>
   </body>
 </html>

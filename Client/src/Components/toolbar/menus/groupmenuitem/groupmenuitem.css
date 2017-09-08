@@ -25,19 +25,19 @@ div.accordion:hover {
 }
 
 div.accordion:after {
-  font-family: 'FontAwesome';
+  font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
   font-size: 24px;
   align-items: center;
-  content: "\f104";
+  content: "\e314";
   opacity: .54;
   float: right;
   color: inherit;
 }
 
 div.accordion.active:after {
-  font-family: 'FontAwesome';
+  font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
   font-size: 24px;
@@ -51,7 +51,7 @@ div.accordion.active:after {
   direction: ltr;
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
-  content: "\f107";
+  content: "\e313";
   background-color: white;
   color: #2196F3;
 }

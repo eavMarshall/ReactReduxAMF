@@ -1,0 +1,25 @@
+@media screen and (max-width: 540px) {
+  .loginpageform {
+    margin: 10%;
+    padding: 5%
+  }
+}
+
+@media screen and (min-width: 540px) and (max-width: 780px) {
+  .loginpageform {
+    margin: 20%;
+    padding: 5%
+  }
+}
+
+@media screen and (min-width: 781px) {
+  .loginpageform {
+    margin: 30%;
+    padding: 5%
+  }
+}
+
+.loginpageform {
+  border-style: solid;
+  border-width: thin;
+}

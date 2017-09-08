@@ -25,15 +25,33 @@
   width: 100%;
 }
 
+.sideMenuLabel:hover {
+  background-color: rgba(0,0,0,0.04);
+}
+
+span.sideMenuLabelText:before {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  align-items: center;
+  content: "\e314";
+  opacity: .54;
+  float: left;
+  color: inherit;
+  line-height:20px;
+}
+
 .sideMenuLabelText {
   display: table-cell;
   vertical-align: middle;
   font-weight: bold;
   color: rgba(0,0,0,0.54);
   text-align: center;
-  padding-left: 15px;
+  padding-left: 16px;
+  padding-right: 32px;
 }
 
-.webix_icon {
+.material-icons {
   padding: 16px;
 }
