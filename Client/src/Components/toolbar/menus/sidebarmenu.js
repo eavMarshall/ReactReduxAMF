@@ -8,7 +8,7 @@ class SideBarMenu extends Component {
       <div className="sidebarmenuContainer">
         <div className="sideMenuTitle">
           <div className="sideMenuLabel">
-            <span className="sideMenuLabelText">App Name</span>
+            <span className="sideMenuLabelText">{this.props.appName}</span>
           </div>
         </div>
         {this.props.children}

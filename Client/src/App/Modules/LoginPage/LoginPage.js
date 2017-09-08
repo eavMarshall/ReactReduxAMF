@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 import Login from '../../Actions.js';
@@ -8,11 +9,18 @@ import './Login.css';
 
 class LoginPage extends WRComponent {
   setWebixData(props) {
+    $$("LoginPageUsername").setValue(this.props.username);
+    $$("LoginPageUsername").refresh();
+
     if (!props.IsLoggingIn) {
       $$("LoginPageLoginButton").enable();
+      $$("LoginPageUsername").enable();
+      $$("LoginPagePassword").enable();
       $$("LoginPageMainForm").hideProgress();
     } else {
       $$("LoginPageLoginButton").disable();
+      $$("LoginPageUsername").disable();
+      $$("LoginPagePassword").disable();
       $$("LoginPageMainForm").showProgress({
           type:"icon"
       });
@@ -20,7 +28,7 @@ class LoginPage extends WRComponent {
       //login here, replace with ajax request
       setTimeout(function() {
         //wipe username and password
-        this.props.UpdateLoginDetails({ username: "", password: ""});
+        this.props.UpdateLoginDetails({ username: this.props.username, password: ""});
         this.props.setIsLoggingIn(false);
         this.props.ActionLogin(true);
       }.bind(this), 2000);
@@ -76,7 +84,8 @@ function matchDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     LoginStatus: state.Session.status.Login,
-    IsLoggingIn: state.LoginPage.IsLoggingIn
+    IsLoggingIn: state.LoginPage.IsLoggingIn,
+    username: state.LoginPage.LoginDetails.username
   };
 }
 

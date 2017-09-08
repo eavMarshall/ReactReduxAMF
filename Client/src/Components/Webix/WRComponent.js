@@ -15,7 +15,6 @@ export default class WRComponent extends Component {
     }
 
     this.rootClass = props.rootClass == null ? "fullScreen" : props.rootClass;
-    this.innerstyle = props.innerstyle == null ? {} : props.innerstyle;
   }
 
   _windowsResize(event) { this.adjust(); this.windowsResize(event); }

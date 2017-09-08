@@ -1,13 +1,13 @@
-export function ActionUpdateToolbar(action) {
+export function ActionSideMenuOpen(action) {
   return {
-    type: '@App.UpdateToolBarLabel',
+    type: '@MainPage.SideMenuOpen',
     payload: action
   };
 }
 
-export function ActionSideMenuOpen(action) {
+export function SelectPage(action) {
   return {
-    type: '@MainPage.SideMenuOpen',
+    type: '@App.SelectPage',
     payload: action
   };
 }

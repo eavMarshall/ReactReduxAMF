@@ -8,31 +8,36 @@ import SideBarMenu from '../../../Components/toolbar/menus/sidebarmenu.js'
 import SingleMenuItem from '../../../Components/toolbar/menus/singlemenuitem/singlemenuitem.js'
 import GroupMenuItem from '../../../Components/toolbar/menus/groupmenuitem/groupmenuitem.js'
 import MenuItem from '../../../Components/toolbar/menus/groupmenuitem/menuitem/menuitem.js'
-import HomePage from './HomePage/HomePage.js'
 import './MainPage.css';
 
 class MainPage extends Component {
-  menuToggleHandler() { this.props.ActionSideMenuOpen(!this.props.sideMenuOpen); this.refs.ToolBar.adjust();}
+  menuToggleHandler() { this.props.ActionSideMenuOpen(!this.props.sideMenuOpen);}
   toolbarLogoutHandler() { this.props.ActionLogin(false); }
-
+  changeSideMenuID(menudata) {
+    this.props.SelectPage(menudata.id);
+  }
+  checkAuth(element) {
+    if (this.props.auth.indexOf(element.props.pageid) == -1) return null;
+    return element;
+  }
   render() {
     return (
-      <ToolBar id="root" toolBarName="Default Toolbar Label" appName="Default app name"
-        selectedPage={this.props.selectedPage}
+      <ToolBar id="root" toolBarName={this.props.selectedPage.props.label}
+        selectedPage={this.props.selectedPage} sideMenuOpen={this.props.sideMenuOpen} onMenuClick={this.menuToggleHandler.bind(this)}
         >
-        <SideBarMenu>
-          <SingleMenuItem label="Home" icon="fa-home" pageid="home" page={() => <HomePage/>}/>
-          <SingleMenuItem label="Client" icon="fa-user" pageid="client" page={() => <div>Client - this is a child div</div>}/>
+        <SideBarMenu appName={this.props.appName}>
+          {this.checkAuth(<SingleMenuItem label="Home" icon="fa-home" pageid="home" selectedPageID={this.props.selectedPageID} change={this.changeSideMenuID.bind(this)}/>)}
+          {this.checkAuth(<SingleMenuItem label="Client" icon="fa-user" pageid="client"selectedPageID={this.props.selectedPageID} change={this.changeSideMenuID.bind(this)}/>)}
           <GroupMenuItem label="Dashboards" icon="fa-dashboard">
-            <MenuItem label="Dashboards 1" pageid="dashboard1" page={() => <div>Dashboards 1 - this is a child div</div>}/>
-            <MenuItem label="Dashboards 2" pageid="dashboard2" page={() => <div>Dashboards 2 - this is a child div</div>}/>
-            <MenuItem label="Dashboards 3" pageid="dashboard3" page={() => <div>Dashboards 3 - this is a child div</div>}/>
+            {this.checkAuth(<MenuItem label="Dashboards 1" pageid="dashboard1" selectedPageID={this.props.selectedPageID} change={this.changeSideMenuID.bind(this)}/>)}
+            {this.checkAuth(<MenuItem label="Dashboards 2" pageid="dashboard2" selectedPageID={this.props.selectedPageID} change={this.changeSideMenuID.bind(this)}/>)}
+            {this.checkAuth(<MenuItem label="Dashboards 3" pageid="dashboard3" selectedPageID={this.props.selectedPageID} change={this.changeSideMenuID.bind(this)}/>)}
           </GroupMenuItem>
           <GroupMenuItem label="Settings" icon="fa-cogs">
-            <MenuItem label="Setting 1" pageid="setting1" page={() => <div>Setting 1 - this is a child div</div>}/>
-            <MenuItem label="Setting 2" pageid="setting2" page={() => <div>Setting 2 - this is a child div</div>}/>
-            <MenuItem label="Setting 3" pageid="setting3" page={() => <div>Setting 3 - this is a child div</div>}/>
-            <MenuItem label="Setting 4" pageid="setting4" page={() => <div>Setting 4 - this is a child div</div>}/>
+            {this.checkAuth(<MenuItem label="Setting 1" pageid="setting1" selectedPageID={this.props.selectedPageID} change={this.changeSideMenuID.bind(this)}/>)}
+            {this.checkAuth(<MenuItem label="Setting 2" pageid="setting2" selectedPageID={this.props.selectedPageID} change={this.changeSideMenuID.bind(this)}/>)}
+            {this.checkAuth(<MenuItem label="Setting 3" pageid="setting3" selectedPageID={this.props.selectedPageID} change={this.changeSideMenuID.bind(this)}/>)}
+            {this.checkAuth(<MenuItem label="Setting 4" pageid="setting4" selectedPageID={this.props.selectedPageID} change={this.changeSideMenuID.bind(this)}/>)}
           </GroupMenuItem>
         </SideBarMenu>
       </ToolBar>
@@ -42,22 +47,21 @@ class MainPage extends Component {
 
 function matchDispatchToProps(dispatch) {
   return bindActionCreators({
-      ActionLogin : ActionLogin,
-      UpdateToolbar : actions.ActionUpdateToolbar,
-      ActionSideMenuOpen: actions.ActionSideMenuOpen
+    ActionLogin : ActionLogin,
+    ActionSideMenuOpen: actions.ActionSideMenuOpen,
+    SelectPage: actions.SelectPage
   }, dispatch);
 }
 
 function mapStateToProps(state) {
   return {
     LoginStatus: state.Session.status.Login,
-    auth: state.Session.auth,
+    auth: state.App.auth,
     appName: state.App.info.appName,
-    toolBarLabel: state.App.info.toolBarLabel.value,
-    pageid: state.App.info.toolBarLabel.id,
+    selectedPage: state.App.Pages.selectedPage,
+    selectedPageID: state.App.Pages.selectedPageID,
     sideBarMenuItems: state.MainPage.sideBarMenuItems,
-    sideMenuOpen: state.MainPage.sideMenuOpen,
-    selectedPage: state.MainPage.selectedPage
+    sideMenuOpen: state.MainPage.sideMenuOpen
   };
 }
 

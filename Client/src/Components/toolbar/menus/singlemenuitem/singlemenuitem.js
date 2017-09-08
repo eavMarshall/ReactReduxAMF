@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './singlemenuitem.css';
+import SelectableMenu from '../selectableMenu.js'
 
-class SingleMenuItem extends Component {
-  setActive() {
-    this.isActive = !this.isActive;
-    if (this.isActive) { this.refs.singleMenuItem.classList.add("active"); } else { this.refs.singleMenuItem.classList.remove("active"); }
-  }
-
+class SingleMenuItem extends SelectableMenu {
   render() {
     return (
-      <div ref="singleMenuItem" className="singleMenuItemContainer" onClick={this.setActive.bind(this)}>
+      <div ref="root" className="singleMenuItemContainer" onClick={this.changeSelectedMenuID.bind(this)}>
         <span className={"webix_icon " + this.props.icon}></span>
         <span className="singleMenuLabel">{this.props.label}</span>
       </div>

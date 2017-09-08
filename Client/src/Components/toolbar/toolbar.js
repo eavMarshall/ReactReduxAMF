@@ -5,8 +5,8 @@ import './toolbar.css';
 import ic_menu_white from './ic_menu_white_24px.svg';
 
 class ToolBar extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   setToolBarName(value) {
@@ -16,17 +16,18 @@ class ToolBar extends Component {
   handleMenuToggle() {
     let sidebar = this.refs.sidebarmenu;
     let toolbar = this.refs.toolbarPageContainer;
-    sidebar.classList.toggle("sideMenuClosed");
-    toolbar.classList.toggle("toolbarPageContainerNoMenu");
+    //sidebar.classList.toggle("sideMenuClosed");
+    //toolbar.classList.toggle("toolbarPageContainerNoMenu");
+    this.props.onMenuClick();
   }
 
   render() {
     return (
       <div>
-        <div ref="sidebarmenu" className="sidenav">
+        <div ref="sidebarmenu" className="sidenav" style={this.props.sideMenuOpen ? {left:"0px"} : {left:"-300px"}}>
           {this.props.children}
         </div>
-        <div className="sidenavmain">
+        <div className="sidenavmain" style={this.props.sideMenuOpen ? {"marginLeft":"300px"} : {"marginLeft":"0px"}}>
           <div id="bar" className="toolBarContainer toolbar">
             <div>
               <input type="image" src={ic_menu_white} className="menuButton" onClick={this.handleMenuToggle.bind(this)}/>

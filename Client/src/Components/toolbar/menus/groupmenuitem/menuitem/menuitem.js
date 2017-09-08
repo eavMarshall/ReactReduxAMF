@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import SelectableMenu from '../../selectableMenu.js'
 import './menuitem.css';
 
-class MenuItem extends Component {
-  setActive() {
-    this.isActive = !this.isActive;
-    if (this.isActive) { this.refs.menuItem.classList.add("active"); } else { this.refs.menuItem.classList.remove("active"); }
-  }
-
+class MenuItem extends SelectableMenu {
   setHidden() {
     this.hide = !this.hide;
     if (this.hide) {
@@ -21,7 +17,7 @@ class MenuItem extends Component {
 
   render() {
     return (
-      <div ref="menuItem" className="menuItemContainer" onClick={this.setActive.bind(this)}>
+      <div ref="root" className="menuItemContainer" onClick={this.changeSelectedMenuID.bind(this)}>
         <span ref="menuItemLabel" className="menuItemChildren menuLabel">{this.props.label}</span>
       </div>
     );
