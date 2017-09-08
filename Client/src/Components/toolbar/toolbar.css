@@ -1,7 +1,7 @@
 
 .toolBarContainer {
   display: grid;
-  grid-template-columns: 56px 1fr 1fr;
+  grid-template-columns: 56px [main-start] 1fr [main-end] 56px;
 }
 
 .toolbar {
@@ -21,6 +21,7 @@
     height:26px;
     width:26px;
     text-align: center;
+    align-items: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;

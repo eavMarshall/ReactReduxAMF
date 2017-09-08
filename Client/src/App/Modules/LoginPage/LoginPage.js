@@ -27,7 +27,7 @@ class LoginPage extends WRComponent {
 
       //login here, replace with ajax request
       setTimeout(function() {
-        //wipe username and password
+        //wipe password
         this.props.UpdateLoginDetails({ username: this.props.username, password: ""});
         this.props.setIsLoggingIn(false);
         this.props.ActionLogin(true);

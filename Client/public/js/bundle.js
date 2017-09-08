@@ -25867,7 +25867,7 @@ var LoginPage = function (_WRComponent) {
 
         //login here, replace with ajax request
         setTimeout(function () {
-          //wipe username and password
+          //wipe password
           this.props.UpdateLoginDetails({ username: this.props.username, password: "" });
           this.props.setIsLoggingIn(false);
           this.props.ActionLogin(true);
@@ -26811,7 +26811,16 @@ var ToolBar = function (_Component) {
                 this.props.toolBarName
               )
             ),
-            _react2.default.createElement('div', null)
+            _react2.default.createElement(
+              'div',
+              null,
+              _react2.default.createElement('span', { className: "menuButton webix_icon fa-sign-out" }),
+              _react2.default.createElement(
+                'div',
+                { className: 'tooltiptext' },
+                'Tooltip text'
+              )
+            )
           ),
           _react2.default.createElement(
             'div',
@@ -26958,7 +26967,7 @@ exports = module.exports = __webpack_require__(17)(undefined);
 
 
 // module
-exports.push([module.i, "\r\n.toolBarContainer {\r\n  display: grid;\r\n  grid-template-columns: 56px 1fr 1fr;\r\n}\r\n\r\n.toolbar {\r\n    height:56px;\r\n    width:100%;\r\n    background-color: #2196F3;\r\n}\r\n\r\n.menuButton {\r\n    display:table;\r\n    background-color: #2196F3;\r\n    border: none;\r\n    color: white;\r\n    padding: 5px;\r\n    margin-left: 7.5px;\r\n    margin-top: 7.5px;\r\n    height:26px;\r\n    width:26px;\r\n    text-align: center;\r\n    text-decoration: none;\r\n    display: inline-block;\r\n    font-size: 16px;\r\n    border-radius: 50%;\r\n}\r\n\r\ndiv .tooltiptext {\r\n    visibility: hidden;\r\n    width: 120px;\r\n    background-color: black;\r\n    color: #fff;\r\n    text-align: center;\r\n    padding: 5px 0;\r\n    position: absolute;\r\n    z-index: 1;\r\n}\r\n\r\n.menuButton:hover {\r\n    background-color: #0288D1;\r\n}\r\n\r\n.menuButton:hover div .tooltiptext {\r\n    visibility: visible;\r\n}\r\n\r\n.toolBarLabel {\r\n  display:table;\r\n  height: 100%;\r\n  width: 100%;\r\n  text-align: left;\r\n}\r\n\r\n.toolBarLabelText {\r\n  display: table-cell;\r\n  vertical-align: middle;\r\n  font-weight: bold;\r\n  color: white;\r\n}\r\n\r\n.sidenav {\r\n    width: 300px;\r\n    height: 100%!important;\r\n    position: fixed;\r\n    z-index: 1;\r\n    top: 0;\r\n    left: 0;\r\n    background-color: white;\r\n    overflow-x: hidden;\r\n    transition: 0.5s;\r\n}\r\n\r\n.sidenavmain {\r\n    margin-Left : 300px;\r\n    border-width: 0px!important;\r\n    transition: 0.5s;\r\n}\r\n", ""]);
+exports.push([module.i, "\r\n.toolBarContainer {\r\n  display: grid;\r\n  grid-template-columns: 56px [main-start] 1fr [main-end] 56px;\r\n}\r\n\r\n.toolbar {\r\n    height:56px;\r\n    width:100%;\r\n    background-color: #2196F3;\r\n}\r\n\r\n.menuButton {\r\n    display:table;\r\n    background-color: #2196F3;\r\n    border: none;\r\n    color: white;\r\n    padding: 5px;\r\n    margin-left: 7.5px;\r\n    margin-top: 7.5px;\r\n    height:26px;\r\n    width:26px;\r\n    text-align: center;\r\n    align-items: center;\r\n    text-decoration: none;\r\n    display: inline-block;\r\n    font-size: 16px;\r\n    border-radius: 50%;\r\n}\r\n\r\ndiv .tooltiptext {\r\n    visibility: hidden;\r\n    width: 120px;\r\n    background-color: black;\r\n    color: #fff;\r\n    text-align: center;\r\n    padding: 5px 0;\r\n    position: absolute;\r\n    z-index: 1;\r\n}\r\n\r\n.menuButton:hover {\r\n    background-color: #0288D1;\r\n}\r\n\r\n.menuButton:hover div .tooltiptext {\r\n    visibility: visible;\r\n}\r\n\r\n.toolBarLabel {\r\n  display:table;\r\n  height: 100%;\r\n  width: 100%;\r\n  text-align: left;\r\n}\r\n\r\n.toolBarLabelText {\r\n  display: table-cell;\r\n  vertical-align: middle;\r\n  font-weight: bold;\r\n  color: white;\r\n}\r\n\r\n.sidenav {\r\n    width: 300px;\r\n    height: 100%!important;\r\n    position: fixed;\r\n    z-index: 1;\r\n    top: 0;\r\n    left: 0;\r\n    background-color: white;\r\n    overflow-x: hidden;\r\n    transition: 0.5s;\r\n}\r\n\r\n.sidenavmain {\r\n    margin-Left : 300px;\r\n    border-width: 0px!important;\r\n    transition: 0.5s;\r\n}\r\n", ""]);
 
 // exports
 

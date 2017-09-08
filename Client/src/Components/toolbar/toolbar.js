@@ -36,7 +36,10 @@ class ToolBar extends Component {
             <div className="toolBarLabel">
               <span className="toolBarLabelText">{this.props.toolBarName}</span>
             </div>
-            <div></div>
+            <div>
+              <span className={"menuButton webix_icon fa-sign-out"}></span>
+              <div className="tooltiptext">Tooltip text</div>
+            </div>
           </div>
           <div>
             {this.props.selectedPage}
